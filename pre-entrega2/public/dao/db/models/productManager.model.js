@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+const mongoosePaginate = require('mongoose-paginate-v2')
+
 // Definición del esquema del producto
 const productSchema = new mongoose.Schema({
   title: { 
@@ -26,7 +28,8 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   status: { 
-    type: String
+    type: Boolean,
+    default: true,
   },
   category: { 
     type: String, 
@@ -34,8 +37,10 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+productSchema.plugin(mongoosePaginate)
+
 // Creación del modelo Product basado en el esquema
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model('products', productSchema);
 
 // Exportación del modelo para su uso en otras partes de la aplicación
-module.exports = Product;
+module.exports =Product;
