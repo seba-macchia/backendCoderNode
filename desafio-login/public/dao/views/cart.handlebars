@@ -1,0 +1,25 @@
+<h1>Carrito</h1>
+<div>
+    <a href="/api/products" class="btn btn-primary">Ir a Productos</a>
+</div>
+{{#if array.length}}
+<div class="products">
+    {{#each array}}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">Descripción: {{this.description}}</p>
+                <p class="card-category">Categoría: {{this.category}}</p>
+                <p class="card-price">Precio por unidad: ${{this.price}}</p>
+                <p class="card-category">Cantidad: {{this.quantity}}</p>
+                <p class="card-price">Precio total: ${{this.priceTot}}</p>
+            </div>
+        </div>
+    {{/each}}
+</div>
+{{else}}
+<div>
+    <p>No hay productos en el carrito.</p>
+</div>
+{{/if}}
+
