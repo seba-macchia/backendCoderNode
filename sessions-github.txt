@@ -1,0 +1,15 @@
+http://localhost:8080/api/sessions/callbackGithub
+
+
+Install App
+Advanced
+Optional features
+Public page
+About
+Owned by: @seba-macchia
+
+App ID: 852712
+
+Client ID: Iv1.d090086a33f4d4c0
+
+clave-secreta: 8a490174832bf67ca94dbd917d3588aef0d87f1b
