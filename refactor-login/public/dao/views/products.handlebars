@@ -1,0 +1,56 @@
+<h1>Productos</h1>
+<h2>Bienvenido usuario: {{user.username}} rol: {{user.rol}}</h2>
+<form action="/logout" method="get">
+  <button type="submit" class="btn btn-primary">Logout</button>
+</form>
+<div>
+  <a href="/api/carts/{{cartId}}" class="btn btn-primary">Ir a Carrito</a>
+</div>
+<div class="products">
+  {{#each products}}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">Descripción: {{this.description}}</p>
+        <p class="card-price">Precio por unidad: ${{this.price}}</p>
+        <p class="card-category">Categoría: {{this.category}}</p>
+        <button class="add-to-cart-btn" data-product-id="{{this.id}}">Agregar al Carrito</button>
+      </div>
+    </div>
+  {{/each}}
+</div>
+<script>
+  $(document).ready(function() {
+    // Captura el clic en el botón "Agregar al Carrito"
+    $('.add-to-cart-btn').click(function(event) {
+      // Evita que se realice la acción por defecto del botón
+      event.preventDefault();
+      
+      // Obtiene el ID del producto desde el atributo 'data-product-id'
+      var productId = $(this).data('product-id');
+      
+      // Define la cantidad del producto a agregar (puedes ajustar esto según tus necesidades)
+      var quantity = 1;
+      
+      // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
+      $.ajax({
+        url: 'http://localhost:8080/api/carts/65de4f0a47f2cbb0a2bb738c/products/' + productId,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ quantity: quantity }),
+        success: function(response) {
+          // Maneja la respuesta del servidor
+          console.log(response);
+          // Por ejemplo, puedes mostrar un mensaje de éxito o actualizar la página
+          alert('Producto agregado al carrito exitosamente');
+        },
+        error: function(error) {
+          // Maneja los errores de la solicitud
+          console.error('Error al agregar el producto al carrito:', error);
+          // Por ejemplo, puedes mostrar un mensaje de error al usuario
+          alert('Error al agregar el producto al carrito');
+        }
+      });
+    });
+  });
+</script>
