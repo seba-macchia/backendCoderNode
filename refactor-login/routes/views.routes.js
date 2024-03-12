@@ -40,16 +40,6 @@ route.get('/profile', auth, (req, res) => {
 })
 
 
-// Rutas para la autenticación de GitHub
-route.get('/auth/github',
-  passport.authenticate('github'));
-
-route.get('/auth/callbackGithub',
-  passport.authenticate('github', { failureRedirect: '/' }),
-  (req, res) => {
-    res.redirect('/api/products');
-  });
-
 
 
 module.exports = route

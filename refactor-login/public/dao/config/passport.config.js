@@ -30,8 +30,8 @@ passport.use(new LocalStrategy({
 
 // Configurar GitHub Strategy
 passport.use(new GitHubStrategy({
-  clientID: 'Iv1.d090086a33f4d4c0',
-  clientSecret: '8a490174832bf67ca94dbd917d3588aef0d87f1b',
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET, 
   callbackURL: 'http://localhost:8080/api/sessions/callbackGithub',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
@@ -41,7 +41,7 @@ passport.use(new GitHubStrategy({
     if (!user) {
       // Si el usuario no existe, crea uno nuevo
       user = new User({
-        name: profile.displayName || 'Usuario GitHub', // Asigna un nombre por defecto si displayName no está disponible
+        name: profile.displayName || 'Usuario GitHub',
         githubId: profile.id,
         // Puedes incluir otros campos como el email si está disponible en el perfil de GitHub
       });
@@ -53,7 +53,6 @@ passport.use(new GitHubStrategy({
     return done(error);
   }
 }));
-
 
 // Resto de la configuración Passport
 passport.serializeUser((user, done) => {
@@ -68,5 +67,4 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
-
 module.exports = passport;

@@ -10,6 +10,6 @@ Owned by: @seba-macchia
 
 App ID: 852712
 
-Client ID: Iv1.d090086a33f4d4c0
+Client ID: Iv1.1b6d49f6cf650bf6
 
-clave-secreta: 8a490174832bf67ca94dbd917d3588aef0d87f1b
+clave-secreta: eb9b7ee3736dfdc90adddb71e950f7749b839db2

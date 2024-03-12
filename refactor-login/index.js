@@ -10,6 +10,7 @@ const productsRoute = require('./routes/products.routes.js')
 const Products = require('./public/dao/db/models/productManager.js')
 const Chat = require('./public/dao/db/models/chat.model.js')
 const http = require('http')
+require('dotenv').config()
 
 const viewsRoute = require('./routes/views.routes.js')
 
