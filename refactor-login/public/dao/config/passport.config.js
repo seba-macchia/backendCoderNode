@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const User = require('../db/models/user.model');
 
 // Configurar Local Strategy
+// En la estrategia local
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
@@ -28,31 +29,39 @@ passport.use(new LocalStrategy({
   }
 }));
 
+
 // Configurar GitHub Strategy
 passport.use(new GitHubStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET, 
   callbackURL: 'http://localhost:8080/api/sessions/callbackGithub',
-}, async (accessToken, refreshToken, profile, done) => {
+  callbackURL: 'http://localhost:8080/api/sessions/callbackGithub',
+}, async ( accessToken, refreshToken, profile, done) => {
   try {
     // Buscar o crear un usuario en tu base de datos utilizando la información de GitHub
-    let user = await User.findOne({ githubId: profile.id });
+    let user = await User.findOne({ email: profile.username });
 
     if (!user) {
+      let email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+
+      // Si el usuario no tiene un correo electrónico asociado, usa el nombre de usuario como nombre de usuario
+      let username = email ? email : profile.username;
+
       // Si el usuario no existe, crea uno nuevo
       user = new User({
         name: profile.displayName || 'Usuario GitHub',
-        githubId: profile.id,
-        // Puedes incluir otros campos como el email si está disponible en el perfil de GitHub
+        email: username,
       });
       await user.save();
     }
 
-    return done(null, user);
+    // Indicar que la autenticación se ha completado y pasar los datos del usuario
+    done(null, user);
   } catch (error) {
-    return done(error);
+    done(error);
   }
 }));
+
 
 // Resto de la configuración Passport
 passport.serializeUser((user, done) => {
@@ -67,4 +76,5 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
+
 module.exports = passport;

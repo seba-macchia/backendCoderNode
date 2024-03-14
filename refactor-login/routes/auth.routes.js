@@ -73,11 +73,20 @@ route.get("/logout", async (req, res) => {
 // Rutas para la autenticación de GitHub
 route.get("/auth/github", passport.authenticate("github"));
 
-route.get(
-  "/api/sessions/callbackGithub",
-  passport.authenticate("github", { failureRedirect: "/" }),
+route.get('/callbackGithub',
+  passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect("/api/products");
-  }
-);
+    req.session.user = {
+      username: req.user.email,
+      rol:
+        req.user.email === "adminCoder@coder.com" &&
+        req.user.password === "adminCod3r123"
+          ? "admin"
+          : "usuario",
+    }   
+    console.log(req.session.user);
+
+    res.redirect('/api/products');
+  });
+
 module.exports = route;

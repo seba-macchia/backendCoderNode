@@ -11,7 +11,6 @@ const {Router} = express
 const Products = require('../public/dao/db/models/productManager')
 const productManager = new Products()
 
-const session = require('express-session');
 
 const route = new Router()
 
@@ -55,7 +54,7 @@ route.get("/", async (req, res) => {
       // Si la solicitud proviene de un navegador u otro cliente que espera HTML
       res.render("products", {
         products: productos.payload,
-        user: session.user = session.user ? session.user : {username: null, rol: null},
+        user: req.session.user = req.session.user ? req.session.user : {username: null, rol: null},
         cartId: "65de4f0a47f2cbb0a2bb738c",
         valor: true,
       });
