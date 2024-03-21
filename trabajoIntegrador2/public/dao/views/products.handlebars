@@ -1,0 +1,61 @@
+<div class="container">
+
+  <div class="d-flex justify-content-end mb-3">
+    <form action="/api/sessions/logout" method="get">
+      <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+    </form>
+  </div>
+
+  <h1>Productos</h1>
+  <h2>Bienvenido usuario: {{user.username}} Rol: {{user.rol}}</h2>
+
+  <div class="mb-3">
+    <a href="/api/carts/{{cartId}}" class="btn btn-primary">Ir a Carrito</a>
+  </div>
+
+  <div class="row">
+    {{#each products}}
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text">Descripción: {{this.description}}</p>
+            <p class="card-text">Precio por unidad: ${{this.price}}</p>
+            <p class="card-text">Categoría: {{this.category}}</p>
+            <button class="add-to-cart-btn btn btn-success" data-product-id="{{this.id}}">Agregar al Carrito</button>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Captura el clic en el botón "Agregar al Carrito"
+    $('.add-to-cart-btn').click(function(event) {
+      // Evita que se realice la acción por defecto del botón
+      event.preventDefault();
+      
+      // Obtiene el ID del producto desde el atributo 'data-product-id'
+      var productId = $(this).data('product-id');
+      
+      var quantity = 1;
+      
+      // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
+      $.ajax({
+        url: 'http://localhost:8080/api/carts/65de373847797cafd7026132/products/' + productId,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ quantity: quantity }),
+        success: function(response) {
+          Swal.fire('Producto agregado al carrito exitosamente');
+        },
+        error: function(error) {
+          console.error('Error al agregar el producto al carrito:', error);
+          Swal.fire('Error al agregar el producto al carrito');
+        }
+      });
+    });
+  });
+</script>
