@@ -7,11 +7,13 @@
   </div>
 
   <h1>Productos</h1>
-  <h2>Bienvenido usuario: {{user.username}} Rol: {{user.rol}}</h2>
+  <h2>Bienvenido usuario: {{user.email}} Rol: {{user.role}}</h2>
+
 
   <div class="mb-3">
     <a href="/api/carts/{{cartId}}" class="btn btn-primary">Ir a Carrito</a>
-  </div>
+</div>
+
 
   <div class="row">
     {{#each products}}
@@ -34,28 +36,34 @@
   $(document).ready(function() {
     // Captura el clic en el botón "Agregar al Carrito"
     $('.add-to-cart-btn').click(function(event) {
-      // Evita que se realice la acción por defecto del botón
-      event.preventDefault();
-      
-      // Obtiene el ID del producto desde el atributo 'data-product-id'
-      var productId = $(this).data('product-id');
-      
-      var quantity = 1;
-      
-      // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
-      $.ajax({
-        url: 'http://localhost:8080/api/carts/65de373847797cafd7026132/products/' + productId,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({ quantity: quantity }),
-        success: function(response) {
-          Swal.fire('Producto agregado al carrito exitosamente');
-        },
-        error: function(error) {
-          console.error('Error al agregar el producto al carrito:', error);
-          Swal.fire('Error al agregar el producto al carrito');
-        }
-      });
+        // Evita que se realice la acción por defecto del botón
+        event.preventDefault();
+        
+        // Obtiene el ID del producto desde el atributo 'data-product-id'
+        var productId = $(this).data('product-id');
+        
+        var quantity = 1;
+        
+        // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
+        $.ajax({
+            url: 'http://localhost:8080/api/carts/65de1535cd77d8512ec8b7b8/products/' + productId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ quantity: quantity }),
+            success: function(response) {
+                Swal.fire('Producto agregado al carrito exitosamente');
+            },
+            error: function(error) {
+                console.error('Error al agregar el producto al carrito:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al agregar el producto al carrito',
+                });
+            }
+        });
     });
-  });
+});
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

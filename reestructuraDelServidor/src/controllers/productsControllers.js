@@ -40,10 +40,13 @@ async function getAllProducts(req, res) {
         // Si la solicitud proviene de un navegador u otro cliente que espera HTML
         res.render("products", {
           products: productos.payload,
-          user: req.session.user = req.session.user ? req.session.user : {username: null, rol: null},
-          cartId: "65de373847797cafd7026132",
+          user: req.session.user ? req.session.user : { email: null, role: null },
+          cartId: "65de1535cd77d8512ec8b7b8",
           valor: true,
         });
+        
+      
+        
       }
     } else if (productos.payload.length == 0) {
       res.status(500).json({

@@ -5,9 +5,12 @@ async function getAllCarts(req, res) {
   try {
     let response = await cartManager.getCarts();
     if (response != false) {
-      res.status(200).send({
-        msg: "Carritos encontrados",
-        data: response,
+      // Obtener el cartId del último carrito creado
+      const cartId = response[response.length - 1]._id;
+      res.render('productos', {
+        user: req.user,
+        cartId: cartId, // Pasar el cartId a la plantilla
+        products: products // Asegúrate de pasar los productos también
       });
     } else {
       res.status(404).send({
@@ -18,6 +21,7 @@ async function getAllCarts(req, res) {
     console.error(err);
   }
 }
+
 
 async function getCartById(req, res) {
   try {

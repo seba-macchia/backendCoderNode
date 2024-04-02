@@ -27,26 +27,31 @@ class CartManager {
 
   async getCartById(id) {
     try {
-      let carrito = await Cart.findById(id).populate("products.product")
-
+      let carrito = await Cart.findById(id).populate("products.product");
+  
+      if (!carrito) {
+        return { success: false, message: `No se encontró ningún carrito con el ID ${id}`, data: null };
+      }
+  
       let nuevoArray = carrito.products.map((item) => {
         return {
-            title: item.product.title,
-            quantity: item.quantity,
-            description: item.product.description,
-            price: item.product.price,
-            priceTot: item.product.price * item.quantity,
-            category: item.product.category,
-            thumbnail: item.product.thumbnail
-        }
-    })
-
-    return { success: true, message: `Carrito obtenido correctamente`, data: nuevoArray }
+          title: item.product.title,
+          quantity: item.quantity,
+          description: item.product.description,
+          price: item.product.price,
+          priceTot: item.product.price * item.quantity,
+          category: item.product.category,
+          thumbnail: item.product.thumbnail
+        };
+      });
+  
+      return { success: true, message: `Carrito obtenido correctamente`, data: nuevoArray };
     } catch (err) {
       console.error(err);
-      return false;
+      return { success: false, message: `Error al obtener el carrito por ID`, data: null };
     }
   }
+  
 
   async deleteAllProdFromCart(cid) {
     try {
@@ -75,19 +80,25 @@ class CartManager {
     }
   }
 
-  async addProdsToCart(cId, prods) {
+  async addProdToCart(cId, pId) {
     try {
-      this.cart = await Cart.findOne({ _id: cId });
-      prods.forEach(async (prod) => {
-        this.cart.products.push({ product: prod.id });
-      });
-      await this.cart.save();
+      // Verificar si el carrito existe, si no, crear uno nuevo
+      let cart = await Cart.findById(cId);
+      if (!cart) {
+        // Si no se encuentra ningún carrito, crear uno nuevo con el ID especificado
+        cart = await Cart.create({ _id: cId, products: [] });
+      }
+  
+      // Ahora puedes agregar el producto al carrito
+      cart.products.push({ product: pId });
+      await cart.save();
       return true;
     } catch (err) {
       console.error(err);
       return false;
     }
   }
+  
 
   async addProdToCart(cId, pId) {
     try {

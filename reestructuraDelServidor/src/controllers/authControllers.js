@@ -35,6 +35,7 @@ async function login(req, res) {
       return res.status(401).send("Contraseña incorrecta");
     }
     const token = tokenGenerator(user);
+    req.session.user = user; // Agregar el usuario a la sesión
     res.cookie("cookieToken", token, { httpOnly: true });
     res.redirect("/api/products");
   } catch (error) {
@@ -42,6 +43,7 @@ async function login(req, res) {
     res.status(500).send("Error interno del servidor");
   }
 }
+
 
 function loginGithub(req, res, next) {
   passport.authenticate("login_github", {
@@ -52,21 +54,34 @@ function loginGithub(req, res, next) {
 function loginGithubCallback(req, res) {
   const user = req.user;
   const token = tokenGenerator(user);
+  req.session.user = user; // Agregar el usuario a la sesión
+
+  // Verificar si el usuario inicia sesión desde GitHub
+  if (user.githubId) {
+    // Si es un usuario de GitHub, asignar el rol y el correo electrónico de GitHub
+    user.role = "github-user";
+    user.email = user.email || `${user.username}@github.com`;
+  }
+
   res.cookie("cookieToken", token, { httpOnly: true });
   res.redirect("/api/products");
 }
+
 
 function logout(req, res) {
   res.clearCookie("cookieToken").redirect("/login");
 }
 
 function getCurrentUser(req, res) {
-  if (req.user) {
-    res.json({ user: req.user });
+  if (req.session.user) {
+    const user = req.session.user; // Obtener todos los datos del usuario de la sesión
+    res.json({ user }); // Enviar todos los datos del usuario como respuesta
   } else {
     res.status(401).json({ message: "Unauthorized" });
   }
 }
+
+
 
 module.exports = {
   register,

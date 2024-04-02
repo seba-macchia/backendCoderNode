@@ -20,50 +20,50 @@ const cookieExtractor = function (req) {
 
 const initializePassport = () => {
   passport.use(
-    "jwt",
-    new JwtStrategy(
-      {
-        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        secretOrKey: SECRET_KEY,
-      },
-      async (jwt_payload, done) => {
-        try {
-          const user = await userManager.getUserById(jwt_payload.id);
-          if (!user) {
-            return done(null, false);
-          }
-          return done(null, user);
-        } catch (err) {
-          return done(err);
+  "jwt",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+      secretOrKey: SECRET_KEY,
+    },
+    async (jwt_payload, done) => {
+      try {
+        // Verificar si el usuario ya existe en la base de datos
+        const user = await userManager.getUserById(jwt_payload.user.id);
+        if (!user) {
+          return done(null, false);
         }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
       }
-    )
-  );
+    }
+  )
+);
 
-  passport.use(
-    "login_github",
-    new GitHubStrategy(
-      {
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/api/sessions/login_github/callback',
-        scope: ["user:email"],
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          // Verificar si el usuario ya existe en la base de datos
-          let user = await userManager.loginWithGitHub(profile); 
-          // Generar token para el usuario
-          const token = tokenGenerator(user);
-          
-          // Devolver el usuario y el token
-          return done(null, { user, token });
-        } catch (err) {
-          return done(err);
-        }
+passport.use(
+  "login_github",
+  new GitHubStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: 'http://localhost:8080/api/sessions/login_github/callback',
+      scope: ["user:email"],
+    },
+    async ( accessToken, refreshToken, profile, done) => {
+      try {
+        // Verificar si el usuario ya existe en la base de datos
+        let user = await userManager.loginWithGitHub(profile); 
+        // Llamar a la función `done` para indicar que la autenticación fue exitosa
+        done(null, user);
+      } catch (err) {
+        done(err);
       }
-    )
-  );
+    }
+  )
+);
+
+
 
   passport.use(
     "login_local",
