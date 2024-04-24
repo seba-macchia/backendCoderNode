@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Ticket de Compra</h1>
+  
+  <div class="mb-3">
+    <p><strong>Código de ticket:</strong> {{ticket.code}}</p>
+    <p><strong>Fecha de compra:</strong> {{ticket.purchase_datetime}}</p>
+    <p><strong>Monto total:</strong> ${{ticket.amount}}</p>
+    <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+  </div>
+
+  <div class="mb-3">
+    <a href="/api/products" class="btn btn-primary">Ir a Productos</a>
+  </div>
+</div>
