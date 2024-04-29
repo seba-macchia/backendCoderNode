@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const mongoose = require('mongoose');
 
 class UserDao {
   async addUser(userData) {

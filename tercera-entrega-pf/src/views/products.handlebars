@@ -11,9 +11,8 @@
 
 
   <div class="mb-3">
-    <a href="/api/carts/{{cartId}}" class="btn btn-primary">Ir a Carrito</a>
-</div>
-
+    <a href="/api/carts/{{cartId}}" class="btn btn-primary" id="cart-link">Ir a Carrito</a>
+  </div>
 
   <div class="row">
     {{#each products}}
@@ -45,7 +44,10 @@
         var cartId = '{{cartId}}';  
 
         var quantity = 1;
+      
         
+        $('#cart-link').attr('href', '/api/carts/' + cartId);
+
         // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
         $.ajax({
             url: 'http://localhost:8080/api/carts/' + cartId + '/products/' + productId,

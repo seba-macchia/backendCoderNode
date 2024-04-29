@@ -82,13 +82,17 @@ async function logout(req, res) {
   res.clearCookie("cookieToken").redirect("/login");
 }
 
-async function getCurrentUser(req, res) {
-  if (req.session.user) {
-    const user = req.session.user; // Obtener todos los datos del usuario de la sesión
-    res.json({ user }); // Enviar todos los datos del usuario como respuesta
-  } else {
-    res.status(401).json({ message: "Unauthorized" });
-  }
+// Función para construir el DTO del usuario con la información necesaria
+function getCurrentUserDTO(user) {
+  // Construir el DTO del usuario con la información necesaria
+  const userDTO = {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    // Agregar más campos si es necesario
+  };
+  return userDTO;
 }
 
 async function completePurchase(req, res) {
@@ -115,6 +119,6 @@ module.exports = {
   loginGithub,
   loginGithubCallback,
   logout,
-  getCurrentUser,
+  getCurrentUserDTO,
   completePurchase, 
 };

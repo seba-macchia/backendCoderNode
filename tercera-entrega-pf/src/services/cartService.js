@@ -14,12 +14,15 @@ class CartManager {
 
   async getCartById(cid) {
     try {
-      const cart = await cartModel.findById(cid).populate("products.product");
+      const cart = await cartModel.findOne({ _id: cid }).populate("products.product");
       if (!cart) {
-        return { success: false, message: `No se encontró ningún carrito con el ID ${cid}`, data: null };
+        const message = `No se encontró ningún carrito con el ID ${cid}`;
+        return { success: false, message, data: null };
       }
+      
       const formattedProducts = cart.products.map((item) => {
         return {
+          _id: item.product._id,
           title: item.product.title,
           quantity: item.quantity,
           description: item.product.description,
@@ -29,10 +32,13 @@ class CartManager {
           thumbnail: item.product.thumbnail
         };
       });
-      return { success: true, message: `Carrito obtenido correctamente`, data: formattedProducts };
+      
+      const message = "Carrito obtenido correctamente";
+      return { _id: cart._id, success: true, message, products: formattedProducts };
     } catch (err) {
       console.error(err);
-      return { success: false, message: `Error al obtener el carrito por ID`, data: null };
+      const message = "Error al obtener el carrito por ID";
+      return { _id: null, success: false, message, data: null };
     }
   }
 
@@ -49,7 +55,8 @@ class CartManager {
     try {
       let cart = await cartModel.findOne({ _id: cid });
       if (cart) {
-        cart.products = cart.products.filter(prod => prod.product.toString() !== pid);
+        const pidString = pid.toString();
+        cart.products = cart.products.filter(product => product.product.toString() !== pidString);
         await cart.save();
         return true;
       } else {
@@ -65,7 +72,7 @@ class CartManager {
     try {
       let cart = await cartModel.findById(cId);
       if (!cart) {
-        cart = await cartModel.create({ _id: cId, products: [] });
+        cart = await cartModel.create({ products: [] });
       }
       cart.products.push({ product: pId });
       await cart.save();

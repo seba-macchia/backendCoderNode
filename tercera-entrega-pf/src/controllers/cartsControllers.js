@@ -4,16 +4,13 @@ const CartManager = require("../services/cartService");
 const cartManager = new CartManager();
 const Product = require("../models/productManager.model"); // Importa el modelo de Product
 const TicketService = require("../services/ticketService");
+const ticketService = new TicketService();
 
 async function getAllCarts(req, res) {
   try {
     let response = await cartManager.getCarts();
     if (response != false) {
-      const cartId = response[response.length - 1]._id;
-      res.render('productos', {
-        user: req.user,
-        cartId: cartId,
-      });
+      return res.status(200).send({ carts: response });
     } else {
       res.status(404).send({ msg: "Carritos no encontrados" });
     }
@@ -39,11 +36,7 @@ async function addProductToCart(req, res) {
       return res.status(400).send({ msg: `No hay suficiente stock disponible para el producto ${pId}` });
     }
 
-    let response = await cartManager.addProdToCart(cId, pId);
-
-    if (response) {
-      await TicketService.generateTicket(req.user, cId, pId);
-    }
+    await cartManager.addProdToCart(cId, pId);
 
     res.status(201).send({ msg: `Producto ${pId} agregado al carrito ${cId}` });
   } catch (err) {
@@ -53,22 +46,59 @@ async function addProductToCart(req, res) {
 }
 
 async function updateProductQuantity(req, res) {
-  // try {
-  //   const cid = req.params.cid;
-  //   const pid = req.params.pid;
-  //   const quantity = req.body.quantity;
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const quantity = req.body.quantity;
 
-  //   let response = await cartManager.updateProductQuantity(cid, pid, quantity);
+    let response = await cartManager.updateProductQuantity(cid, pid, quantity);
 
-  //   if (response) {
-  //     res.status(200).send({ msg: `Se actualizó la cantidad del producto ${pid} en el carrito ${cid}`, data: response.data });
-  //   } else {
-  //     res.status(404).send({ msg: `No se pudo actualizar la cantidad del producto ${pid} en el carrito ${cid}` });
-  //   }
-  // } catch (error) {
-  //   console.error('Error al actualizar la cantidad del producto', error);
-  //   res.status(500).send({ msg: 'Error interno del servidor al actualizar la cantidad del producto' });
-  // }
+    if (response) {
+      res.status(200).send({ msg: `Se actualizó la cantidad del producto ${pid} en el carrito ${cid}`, data: response.data });
+    } else {
+      res.status(404).send({ msg: `No se pudo actualizar la cantidad del producto ${pid} en el carrito ${cid}` });
+    }
+  } catch (error) {
+    console.error('Error al actualizar la cantidad del producto', error);
+    res.status(500).send({ msg: 'Error interno del servidor al actualizar la cantidad del producto' });
+  }
+}
+
+async function showCart(req, res) {
+  try {
+    const cid = req.params.cid;
+
+    let response = await cartManager.getCartById(cid);
+
+    if (response) {
+      res.render("cart", {
+        products: response.products,
+        user: req.session.user ? req.session.user : { email: null, role: null },
+        cartId: req.session.user.cart,
+        valor: true,
+      })
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function deleteAllProductsFromCart(req, res) {
+  try {
+    const cid = req.params.cid;
+
+    let response = await cartManager.deleteAllProdFromCart(cid);
+
+    if (response) {
+      res.redirect("/api/carts/" + cid);
+    } else {
+      res.status(404).send({ msg: `No se pudo eliminar todos los productos del carrito ${cid}` });
+    }
+    }
+  catch (err) {
+    console.error(err);
+    res.status(500).send({ msg: "Error interno del servidor al eliminar todos los productos del carrito" });
+  }
 }
 
 async function createCart(req, res) {
@@ -87,6 +117,7 @@ async function createCart(req, res) {
 
 async function purchaseCart(req, res) {
   const { cid } = req.params;
+  const userId = req.user._id;
 
   try {
     const cart = await cartManager.getCartById(cid);
@@ -94,37 +125,23 @@ async function purchaseCart(req, res) {
       return res.status(404).json({ error: 'Cart not found' });
     }
 
-    const products = cart.data;
-    const unpurchasedProducts = [];
+    const ticketData = await ticketService.generateTicket(cart, userId);
 
-    for (const product of products) {
-      const productDocument = await Product.findById(product.product);
-      
-      if (!productDocument) {
-        continue;
-      }
-
-      if (productDocument.stock >= product.quantity) {
-        productDocument.stock -= product.quantity;
-        await productDocument.save();
+    if (ticketData.ticket) {
+      // Si se pudo generar un ticket
+      if (ticketData.purchasedProducts.length === cart.products.length) {
+        // Si se vendieron todos los productos, mostrar solo el ticket
+        res.render('checkout', { ticket: ticketData.ticket.toObject(), cartId: cid });
+        
       } else {
-        unpurchasedProducts.push(product.product);
+        console.log(ticketData.ticket);
+        // Si no se vendieron todos los productos, mostrar el ticket y los detalles de los productos no comprados
+        res.render('checkout', { ticket: ticketData.ticket.toObject(), unpurchasedProducts: ticketData.unpurchasedProducts, cartId: cid });
       }
-    }
-
-    const ticket = await TicketService.generateTicket(cart, userId);
-
-    if (unpurchasedProducts.length > 0) {
-      // Actualizar el carrito para incluir solo los productos que no pudieron comprarse
-      const filteredProducts = products.filter(product => unpurchasedProducts.includes(product.product));
-      await cartManager.updateCartProducts(cid, filteredProducts);
     } else {
-      // Si todos los productos se compraron con éxito, eliminar el carrito
-      await cartManager.deleteAllProdFromCart(cid);
+      // Si no se pudo generar un ticket, mostrar los detalles de los productos no comprados
+      res.render('checkout', { error: 'No se pudo generar el ticket', unpurchasedProducts: ticketData.unpurchasedProducts, cartId: cid });
     }
-
-    // Renderizar la vista de checkout con la información del ticket
-    res.render('checkout', { ticket });
 
   } catch (error) {
     console.error("Error al procesar la compra:", error);
@@ -156,5 +173,7 @@ module.exports = {
   createCart,
   updateProductQuantity,
   purchaseCart,
+  deleteAllProductsFromCart,
   deleteCart,
+  showCart,
 };

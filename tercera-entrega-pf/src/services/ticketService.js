@@ -1,39 +1,80 @@
+// ticketService.js
+
 const Ticket = require('../models/ticket.model');
 const Product = require('../models/productManager.model');
+const User = require('../models/user.model');
+const CartService = require('./cartService'); // Importamos el servicio de carrito
 
 class TicketService {
+  constructor() {
+    this.cartService = new CartService(); // Creamos una instancia del servicio de carrito
+  }
+
   async generateTicket(cart, userId) {
     try {
       const products = cart.products;
-      const ticket = new Ticket({
-        code: this.generateCode(),
-        purchase_datetime: new Date(),
-        amount: cart.total,
-        purchaser: userId
-      });
-
-      // Procesar compra para cada producto en el carrito
+      
+      const purchasedProducts = []; // Arreglo para almacenar los IDs de productos comprados
+      const unpurchasedProducts = []; // Arreglo para almacenar los IDs de productos no comprados
+      let ticket = null;
+  
+      // Sumar el atributo priceTot de todos los productos
+      const totalAmount = products.reduce((total, product) => total + (product.price * product.quantity), 0);
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        throw new Error(`User not found with id: ${userId}`);
+      }
+  
+      // Procesar compra para cada producto en el carrito y reducir el stock
       for (const product of products) {
-        const productDocument = await Product.findById(product.product);
+        const productDocument = await Product.findOne({ _id: product._id });
+        
         if (!productDocument) {
           continue; // Si el producto no existe, saltar al siguiente
         }
+
         if (productDocument.stock >= product.quantity) {
           productDocument.stock -= product.quantity;
           await productDocument.save();
+          purchasedProducts.push({
+            _id: product._id,
+            title: product.title,
+            quantity: product.quantity,
+            category: product.category,
+            price: product.price
+          }); // Agregar el producto comprado al arreglo
+
+          // Eliminar el producto vendido del carrito utilizando el servicio de carrito
+          await this.cartService.delProdById(cart._id, product._id);
         } else {
-          throw new Error(`Insufficient stock for product: ${productDocument.title}`);
+          unpurchasedProducts.push({
+            _id: product._id,
+            title: product.title,
+            quantity: product.quantity,
+            category: product.category,
+            price: product.price
+          }); // Agregar el producto no comprado al arreglo
         }
       }
-
-      // Guardar el ticket
-      await ticket.save();
-
-      return ticket;
+  
+      // Si se compró al menos un producto, generamos el ticket
+      if (purchasedProducts.length > 0) {
+        ticket = new Ticket({
+          code: this.generateCode(),
+          purchase_datetime: new Date(),
+          amount: totalAmount,
+          purchaser: user.email
+        });
+        await ticket.save();
+      }
+  
+      return { ticket, purchasedProducts, unpurchasedProducts };
     } catch (error) {
       throw new Error(`Error generating ticket: ${error.message}`);
     }
   }
+  
 
   generateCode() {
     return (

@@ -9,14 +9,19 @@
 
   <div class="mb-3">
     <a href="/api/products" class="btn btn-primary">Ir a Productos</a>
-    {{#if array.length}}
-    <a href="/api/carts/{{cartId}}/purchase" class="btn btn-success">Finalizar compra</a>
+    {{#if products.length}}
+    <form action="/api/carts/{{cartId}}/purchase" method="post">
+      <button type="submit" class="btn btn-success">Finalizar compra</button>
+    </form>
+    <form action="/api/carts/{{cartId}}/products" method="post">
+      <button type="submit" class="btn btn-danger">Vaciar carrito</button>
+    </form>
     {{/if}}
   </div>
 
-  {{#if array.length}}
+  {{#if products}}
   <div class="row">
-    {{#each array}}
+    {{#each products}}
     <div class="col-md-4">
       <div class="card mb-3">
         <div class="card-body">
