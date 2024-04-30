@@ -56,6 +56,7 @@ async function login(req, res) {
   }
 }
 
+
 function loginGithub(req, res, next) {
   passport.authenticate("login_github", {
     session: false,
@@ -79,8 +80,16 @@ function loginGithubCallback(req, res) {
 }
 
 async function logout(req, res) {
-  res.clearCookie("cookieToken").redirect("/login");
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al destruir la sesión:", err);
+      res.status(500).send("Error interno del servidor");
+    } else {
+      res.clearCookie("cookieToken").redirect("/login");
+    }
+  });
 }
+
 
 // Función para construir el DTO del usuario con la información necesaria
 function getCurrentUserDTO(user) {

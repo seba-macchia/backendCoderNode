@@ -9,11 +9,13 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  renderManagerPage,
 } = require("../controllers/productsControllers");
 
 route.get("/", getAllProducts);
-route.get("/allProducts", getAllProductsAPI);
+route.get("/allProducts", isAdmin, getAllProductsAPI);
 route.get("/prodById/:productId", getProductById);
+route.get("/manager", isAdmin, renderManagerPage);
 route.post("/createProd", isAdmin, createProduct); // Aplicar middleware de autorización para crear producto (solo para administradores)
 route.put("/updateProd/:id", isAdmin, updateProduct); // Aplicar middleware de autorización para actualizar producto (solo para administradores)
 route.delete("/deleteProd/:pid", isAdmin, deleteProduct); // Aplicar middleware de autorización para eliminar producto (solo para administradores)

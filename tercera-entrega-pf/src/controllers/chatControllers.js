@@ -14,25 +14,38 @@ async function getAllMessages(req, res) {
 
 async function createMessage(req, res) {
   try {
-    await Messages.create(req.body);
-    res.status(201).send({
-      msg: "Mensaje creado",
-      data: req.body
-    });
+    // Recibe los datos del formulario
+    const { user, message } = req.body;
+
+    // Crea el mensaje en la base de datos
+    await Messages.create({ user, message });
+
+    // Envía una respuesta de éxito
+    res.redirect("/chat");
   } catch (err) {
-    res.send(err);
+    // Maneja los errores
+    res.status(500).send(err);
   }
 }
-
 async function renderChatPage(req, res) {
   try {
-    const messages = await Messages.find();
-    res.render('chat', { messages });
+    // Obtener solo los mensajes del usuario actual
+    const messages = await Messages.find({ user: req.user.email });
+
+    // Desglosar el objeto antes de pasarlos a la plantilla
+    const messageData = messages.map(message => ({
+      user: message.user,
+      message: message.message
+    }));
+
+    // Pasar el usuario actual y los mensajes a la plantilla
+    res.render("chat", { messages: messageData, userEmail: req.user.email });
   } catch (error) {
     console.error(`Error al obtener mensajes: ${error}`);
     res.status(500).send('Error al obtener mensajes');
   }
 }
+
 
 module.exports = {
   getAllMessages,

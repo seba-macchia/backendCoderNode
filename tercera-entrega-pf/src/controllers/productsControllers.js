@@ -33,21 +33,17 @@ async function getAllProducts(req, res) {
     });
 
     if (productos.success && productos.payload.length > 0) {
-      // Si la solicitud proviene de Postman o si el cliente ha especificado que prefiere JSON
-      if (req.get('Content-Type') === 'application/json' || req.query.format === 'json') {
-        res.status(200).json({ products: productos.payload });
-      } else {
-        // Si la solicitud proviene de un navegador u otro cliente que espera HTML
-        res.render("products", {
-          products: productos.payload,
-          user: req.session.user ? req.session.user : { email: null, role: null },
-          cartId: req.session.user.cart,
-          valor: true,
-        });
-        
-      
-        
-      }
+      // Verificar si el usuario tiene el rol de administrador
+      const isAdmin = req.session.user ? req.session.user.role === 'admin' : false;
+
+      // Renderizar la vista de productos con el botón de gestión solo si el usuario es administrador
+      res.render("products", {
+        products: productos.payload,
+        user: req.session.user ? req.session.user : { email: null, role: null },
+        cartId: req.session.user.cart,
+        valor: true,
+        isAdmin: isAdmin // Pasar la variable isAdmin a la vista
+      });
     } else if (productos.payload.length == 0) {
       res.status(500).json({
         message: "No hay productos para mostrar",
@@ -64,19 +60,75 @@ async function getAllProducts(req, res) {
   }
 }
 
-async function getAllProductsAPI(req, res) {
+async function renderManagerPage(req, res) {
   try {
-    let resp = await ProductManager.find();
-    res.send({
-      msg: "Productos encontrados",
-      data: resp,
+    res.render("productsManager", {
+      user: req.session.user ? req.session.user : { email: null, role: null },
+      cartId: req.session.user.cart,
+      valor: true,
     });
   } catch (err) {
-    res.send({
-      error: err,
-    });
+    console.error(err);
   }
 }
+
+async function getAllProductsAPI(req, res) {
+  try {
+    const limit = parseInt(req.query.limit);
+    const page = parseInt(req.query.page);
+    const sort = req.query.sort;
+    const query = req.query || {};
+
+    let filter = {};
+
+    if (query.category) {
+      filter.category = query.category;
+    }
+    if (query.status) {
+      filter.status = query.status;
+    }
+
+    const productos = await productManager.getProducts(limit, page, sort, filter);
+
+    // Mapear los productos para que coincidan con la estructura esperada
+    const mappedProducts = productos.payload.map((item) => ({
+      _id: item._id,
+      title: item.title,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      stock: item.stock,
+      code: item.code,
+      status: item.status,
+      thumbnail: item.thumbnail,
+    }));
+
+    if (productos.success && productos.payload.length > 0) {
+      // Verificar si el usuario tiene el rol de administrador
+      const isAdmin = req.session.user ? req.session.user.role === 'admin' : false;
+
+      // Renderizar la vista de productos con el botón de gestión solo si el usuario es administrador
+      res.json({
+        msg: "Productos encontrados",
+        data: mappedProducts,
+        isAdmin: isAdmin
+      });
+    } else if (productos.payload.length == 0) {
+      res.status(500).json({
+        message: "No hay productos para mostrar",
+        data: mappedProducts,
+        totalPages: productos.totalPages,
+      });
+    } else {
+      // Manejar errores y enviar respuesta de error al cliente
+      res.status(500).json({ message: productos.message, error: productos.error });
+    }
+  } catch (error) {
+    console.error(`Error obteniendo los productos: ${error}`);
+    res.status(500).send({ error: "Error interno del servidor" });
+  }
+}
+
 
 async function getProductById(req, res) {
   const productId = req.params.productId;
@@ -115,7 +167,7 @@ async function createProduct(req, res) {
       category,
     } = req.body;
 
-    const savedProduct = await productManager.addProduct({
+    await productManager.addProduct({
       title,
       description,
       price,
@@ -126,7 +178,7 @@ async function createProduct(req, res) {
       category,
     });
 
-    res.status(200).json(savedProduct);
+    res.redirect("/api/products/manager");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al agregar producto" });
@@ -138,11 +190,10 @@ async function updateProduct(req, res) {
   const newData = req.body;
 
   try {
-    const updatedProduct = await productManager.findByIdAndUpdate(
+    const updatedProduct = await productManager.updateProduct(
       productId,
-      newData,
-      { new: true }
-    );
+      newData
+    )
 
     if (updatedProduct) {
       res.status(200).send({
@@ -166,7 +217,7 @@ async function deleteProduct(req, res) {
 
   try {
     // Busca y elimina el producto con el ID proporcionado
-    const deletedProduct = await productManager.findOneAndDelete({ _id: pid });
+    const deletedProduct = await productManager.delProduct(pid);
 
     if (deletedProduct) {
       res.status(200).send("PRODUCTO ELIMINADO");
@@ -188,4 +239,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  renderManagerPage,
 };

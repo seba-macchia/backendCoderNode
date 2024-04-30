@@ -13,6 +13,7 @@ const app = express();
 const Database = require("./src/config/database.js");
 const productsRoute = require("./src/routes/products.routes.js");
 const cartsRoute = require("./src/routes/carts.routes.js");
+const chatRoutes = require("./src/routes/chat.routes.js");
 const messagesRoute = require("./src/routes/chat.routes.js");
 const authRoutes = require("./src/routes/auth.routes.js");
 const viewsRoutes = require("./src/routes/main.routes.js");
@@ -45,15 +46,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/src/views");
 
-app.get("/chat", async (req, res) => {
-  try {
-    const messages = await Chat.find();
-    res.render("chat", { messages });
-  } catch (error) {
-    console.error(`Error al obtener mensajes: ${error}`);
-    res.status(500).send("Error al obtener mensajes");
-  }
-});
+app.use("/chat", chatRoutes);
 
 const PORT = process.env.PORT || 8080; // Usar la variable de entorno para el puerto
 const server = http.createServer(app);

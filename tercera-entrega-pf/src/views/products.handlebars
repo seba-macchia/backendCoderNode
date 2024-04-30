@@ -5,10 +5,19 @@
       <button type="submit" class="btn btn-danger">Cerrar sesión</button>
     </form>
   </div>
+  <div class="mb-3">
+    <a href="/chat" class="btn btn-success" id="chat-link">Ir al Chat</a>
+  </div>
+
 
   <h1>Productos</h1>
-  <h2>Bienvenido usuario: {{user.email}} Rol: {{user.role}}</h2>
+  <h2>Bienvenido Usuario: {{user.email}} Rol: {{user.role}}</h2>
 
+  {{#if isAdmin}}
+    <div class="mb-3">
+      <a href="/api/products/manager" class="btn btn-primary">Gestionar Productos</a>
+    </div>
+  {{/if}}
 
   <div class="mb-3">
     <a href="/api/carts/{{cartId}}" class="btn btn-primary" id="cart-link">Ir a Carrito</a>
@@ -23,7 +32,9 @@
             <p class="card-text">Descripción: {{this.description}}</p>
             <p class="card-text">Precio por unidad: ${{this.price}}</p>
             <p class="card-text">Categoría: {{this.category}}</p>
-            <button class="add-to-cart-btn btn btn-success" data-product-id="{{this.id}}">Agregar al Carrito</button>
+            {{#unless isAdmin}}
+              <button class="add-to-cart-btn btn btn-success" data-product-id="{{this.id}}">Agregar al Carrito</button>
+            {{/unless}}
           </div>
         </div>
       </div>
@@ -48,6 +59,16 @@
         
         $('#cart-link').attr('href', '/api/carts/' + cartId);
 
+        // Si es administrador, muestra un SweetAlert
+        if ({{isAdmin}}) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no permitida',
+            text: 'Usted es administrador. Los administradores no pueden agregar productos al carrito.',
+          });
+          return; // Sale de la función sin realizar la solicitud AJAX
+        }
+
         // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
         $.ajax({
             url: 'http://localhost:8080/api/carts/' + cartId + '/products/' + productId,
@@ -68,7 +89,32 @@
             }
         });
     });
-});
 
+    // Captura el clic en el enlace "Ir al Chat"
+    $('#chat-link').click(function(event) {
+      // Si es administrador, muestra un SweetAlert
+      if ({{isAdmin}}) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Acción no permitida',
+          text: 'Usted es administrador. Los administradores no pueden acceder al chat.',
+        });
+      }
+    });
+
+    // Captura el clic en el enlace "Ir a Carrito"
+    $('#cart-link').click(function(event) {
+      // Si es administrador, muestra un SweetAlert
+      if ({{isAdmin}}) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Acción no permitida',
+          text: 'Usted es administrador. Los administradores no pueden acceder al carrito.',
+        });
+      }
+    });
+  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
