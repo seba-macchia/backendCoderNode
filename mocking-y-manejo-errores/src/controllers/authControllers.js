@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { tokenGenerator } = require("../utils/generateToken.js");
 const UserManager = require("../services/userService.js");
 const TicketService = require("../services/ticketService.js"); // Importa el servicio de tickets
+const errorDictionary = require('../middleware/errorDictionary.js');
 const userManager = new UserManager();
 const ticketService = new TicketService(); // Crea una instancia del servicio de tickets
 
@@ -20,7 +21,7 @@ async function register(req, res) {
     res.redirect("/");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error interno del servidor");
+    res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -29,11 +30,11 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await userManager.findUserByEmail(email);
     if (!user) {
-      return res.status(401).send("Correo electrónico incorrecto");
+      return res.status(401).send(errorDictionary.EMAIL_ERROR);
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(401).send("Contraseña incorrecta");
+      return res.status(401).send(errorDictionary.PASSWORD_ERROR);
     }
 
     // Verificar si el usuario es el administrador
@@ -52,7 +53,7 @@ async function login(req, res) {
     res.redirect("/api/products");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error interno del servidor");
+    res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -63,7 +64,7 @@ function loginGithub(req, res, next) {
   })(req, res, next);
 }
 
-function loginGithubCallback(req, res) {
+async function loginGithubCallback(req, res) {
   const user = req.user;
   const token = tokenGenerator(user);
   req.session.user = user; // Agregar el usuario a la sesión
@@ -71,7 +72,7 @@ function loginGithubCallback(req, res) {
   // Verificar si el usuario inicia sesión desde GitHub
   if (user.githubId) {
     // Si es un usuario de GitHub, asignar el rol y el correo electrónico de GitHub
-    user.role = "github-user";
+    user.role = "admin"; // Asignar el rol de administrador
     user.email = user.email || `${user.username}@github.com`;
   }
 
@@ -83,7 +84,7 @@ async function logout(req, res) {
   req.session.destroy((err) => {
     if (err) {
       console.error("Error al destruir la sesión:", err);
-      res.status(500).send("Error interno del servidor");
+      res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
     } else {
       res.clearCookie("cookieToken").redirect("/login");
     }
@@ -118,7 +119,7 @@ async function completePurchase(req, res) {
     res.status(200).json({ message: "Compra completada", ticket: ticket });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error interno del servidor");
+    res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
 

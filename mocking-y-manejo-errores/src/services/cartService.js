@@ -16,20 +16,20 @@ class CartManager {
     try {
       const cart = await cartModel.findOne({ _id: cid }).populate("products.product");
       if (!cart) {
-        const message = `No se encontró ningún carrito con el ID ${cid}`;
+        const message = errorDictionary.NOTCART_OBTAINED_ID;
         return { success: false, message, data: null };
       }
       
       const formattedProducts = cart.products.map((item) => {
         return {
-          _id: item.product._id,
-          title: item.product.title,
+          _id: item.product ? item.product._id : null,
+          title: item.product ? item.product.title : null,
           quantity: item.quantity,
-          description: item.product.description,
-          price: item.product.price,
-          priceTot: item.product.price * item.quantity,
-          category: item.product.category,
-          thumbnail: item.product.thumbnail
+          description: item.product ? item.product.description : null,
+          price: item.product ? item.product.price : null,
+          priceTot: item.product ? item.product.price * item.quantity : null,
+          category: item.product ? item.product.category : null,
+          thumbnail: item.product ? item.product.thumbnail : null
         };
       });
       
@@ -41,6 +41,8 @@ class CartManager {
       return { _id: null, success: false, message, data: null };
     }
   }
+  
+  
 
   async deleteAllProdFromCart(cid) {
     try {

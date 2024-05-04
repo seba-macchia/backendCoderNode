@@ -1,6 +1,7 @@
 const errorDictionary = require("../middleware/errorDictionary");
 const ProductManager = require("../services/productService");
 const productManager = new ProductManager();
+const faker = require('faker');
 
 async function getAllProducts(req, res) {
   const limit = parseInt(req.query.limit);
@@ -198,12 +199,12 @@ async function updateProduct(req, res) {
 
     if (updatedProduct) {
       res.status(200).send({
-        msg: "PRODUCT_UPDATED",
+        msg: errorDictionary.PRODUCT_UPDATED,
         data: updatedProduct,
       });
     } else {
       res.status(404).send({
-        error: "PRODUCT_NOT_FOUND",
+        error: errorDictionary.PRODUCT_NOT_FOUND,
       });
     }
   } catch (err) {
@@ -237,19 +238,19 @@ async function deleteProduct(req, res) {
 const generateSimulatedProducts = (req, res) => {
   const simulatedProducts = Array.from({ length: 100 }, (_, index) => ({
       _id: index + 1, // Simula el ID de MongoDB
-      title: `Product ${index + 1}`,
-      description: `Description of product ${index + 1}`,
-      price: Math.floor(Math.random() * 100) + 1, // Precio aleatorio
-      thumbnail: `https://picsum.photos/id/${index + 1}/200/300`,
-      code: `code_${index + 1}`,
-      stock: Math.floor(Math.random() * 100) + 1, // Stock aleatorio entre 1 y 100
-      status: Math.random() < 0.5, // Status aleatorio entre true y false
-      category: `Category ${index + 1}`,
-      
+      title: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: faker.datatype.number({ min: 1, max: 100 }), // Precio aleatorio
+      thumbnail: faker.image.imageUrl(200, 300),
+      code: faker.lorem.word() + `_${index + 1}`,
+      stock: faker.datatype.number({ min: 1, max: 100 }), // Stock aleatorio entre 1 y 100
+      status: faker.datatype.boolean(), // Status aleatorio entre true y false
+      category: faker.commerce.department(),
   }));
 
   res.json(simulatedProducts);
 };
+
 
 
 

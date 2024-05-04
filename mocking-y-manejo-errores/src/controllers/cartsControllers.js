@@ -2,7 +2,7 @@
 const errorDictionary = require("../middleware/errorDictionary");
 const CartManager = require("../services/cartService");
 const cartManager = new CartManager();
-const Product = require("../models/productManager.model"); // Importa el modelo de Product
+const Product = require("../models/productManager.model"); 
 const TicketService = require("../services/ticketService");
 const ticketService = new TicketService();
 
@@ -70,18 +70,22 @@ async function showCart(req, res) {
 
     let response = await cartManager.getCartById(cid);
 
-    if (response) {
+    if (response.success) {
       res.render("cart", {
         products: response.products,
         user: req.session.user ? req.session.user : { email: null, role: null },
         cartId: req.session.user.cart,
         valor: true,
-      })
+      });
+    } else {
+      res.status(404).send({ msg: response.message });
     }
   } catch (err) {
     console.error(err);
+    res.status(500).send({ msg: errorDictionary.INTERNAL_SERVER_ERROR });
   }
 }
+
 
 async function deleteAllProductsFromCart(req, res) {
   try {

@@ -38,6 +38,10 @@ const errorDictionary = {
   CHAT_NOT_FOUND: "Chat no encontrado",
   CHAT_ERROR:"Error al obteenr msjs",
 
+  // correo
+  EMAIL_ERROR:"Correo electrónico incorrecto",
+  PASSWORD_ERROR:"Contraseña incorrecta",
+
   // otros
   GENERIC_ERROR:"algo salió mal",
 
