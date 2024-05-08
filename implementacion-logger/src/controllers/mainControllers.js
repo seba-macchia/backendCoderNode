@@ -1,6 +1,6 @@
 const userManager = require("../services/userService");
-const { getLogger, levels } = require('../config/logger.config');
-const logger = getLogger(process.env.NODE_ENV, levels.error);
+const { getLogger } = require('../config/logger.config');
+const logger = getLogger(process.env.NODE_ENV);
 
 function auth(req, res, next) {
   try {
@@ -9,7 +9,7 @@ function auth(req, res, next) {
       logger.info("Autenticación exitosa");
       next();
     } else {
-      logger.warn("Intento de acceso no autorizado");
+      logger.warning("Intento de acceso no autorizado");
       res.redirect("/");
     }
   } catch (error) {

@@ -10,33 +10,23 @@ const http = require("http");
 const { Server } = require("socket.io");
 const app = express();
 const Database = require("./src/config/database.js");
-const productsRoute = require("./src/routes/products.routes.js");
-const cartsRoute = require("./src/routes/carts.routes.js");
-const chatRoutes = require("./src/routes/chat.routes.js");
-const messagesRoute = require("./src/routes/chat.routes.js");
-const authRoutes = require("./src/routes/auth.routes.js");
-const viewsRoutes = require("./src/routes/main.routes.js");
+const Chat = require("./src/models/chat.model.js");
 const errorDictionary = require('./src/middleware/errorDictionary');
-const loggerMiddleware = require('./src/middleware/loggerMiddleware.js');
 const loggerConfig = require('./src/config/logger.config.js');
 const loggerRoutes = require('./src/routes/logger.routes.js');
+const authRoutes = require("./src/routes/auth.routes.js");
+const viewsRoutes = require("./src/routes/main.routes.js");
+const messagesRoute = require("./src/routes/chat.routes.js");
+const chatRoutes = require("./src/routes/chat.routes.js");
+const loggerMiddleware = require('./src/middleware/loggerMiddleware.js');
+const config = require('./src/config/loger.commander.js');
+
 
 // Cargar las variables de entorno
 require('dotenv').config();
-// Middleware para añadir el logger a la solicitud
-app.use((req, res, next) => {
-  // Obtener el nivel de registro según el entorno
-  const logLevel = process.env.NODE_ENV === 'production' ? process.env.LOG_LEVEL_PROD : process.env.LOG_LEVEL_DEV;
 
-  // Imprimir el nivel de registro en la consola
-  console.log('Nivel de registro:', logLevel);
-
-  // Obtener el logger correspondiente
-  req.logger = loggerConfig.getLogger(process.env.NODE_ENV, logLevel);
-
-  // Continuar con el siguiente middleware
-  next();
-});
+// Aplica el middleware de logger a todas las rutas
+app.use(loggerMiddleware);
 
 // Rutas
 app.use('/logs', loggerRoutes);
@@ -48,17 +38,17 @@ app.use(cookieParser());
 app.use(session({
   secret: 'mySecret', 
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI, // Usar la variable de entorno para la URL de MongoDB
+    mongoUrl: process.env.MONGO_URI,
   }),
   resave: false,
   saveUninitialized: false
 }));
 
-initializePassport(); // Llama a initializePassport antes de usar passport.initialize()
+initializePassport();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize()); // Llama a passport.initialize después de inicializar Passport
+app.use(passport.initialize());
 
 app.use('/api/sessions', authRoutes);
 app.use("/msg", messagesRoute);
@@ -71,12 +61,13 @@ app.set("views", __dirname + "/src/views");
 
 app.use("/chat", chatRoutes);
 
-const PORT = process.env.PORT || 8080; // Usar la variable de entorno para el puerto
+const PORT = config.port; // Utilizar el puerto definido en el archivo de configuración
 const server = http.createServer(app);
 
 const io = new Server(server);
 io.on(errorDictionary.CONECTION_ESTABLISHED, (socket) => {
-  console.log(`Nuevo cliente conectado ${socket.id}`);
+  const logger = loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL);
+  logger.info(`Nuevo cliente conectado ${socket.id}`);
 
   socket.on("all-messages", async () => {
     const messages = await Chat.find();
@@ -92,12 +83,12 @@ io.on(errorDictionary.CONECTION_ESTABLISHED, (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(errorDictionary.LISTENING_PORT,`${PORT}`);
+  loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(`${errorDictionary.LISTENING_PORT} ${PORT}`); 
   Database.connect()
     .then(() => {
-      console.log(errorDictionary.CONECTION_DATABASE);
+      loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).info(errorDictionary.CONECTION_DATABASE); 
     })
     .catch((error) => {
-      console.error(errorDictionary.DATABASE_ERROR, error);
+      loggerConfig.getLogger(process.env.NODE_ENV, process.env.LOG_LEVEL).error(`${errorDictionary.DATABASE_ERROR} ${error}`); 
     });
 });

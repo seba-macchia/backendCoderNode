@@ -3,9 +3,7 @@ const ProductManager = require("../services/productService");
 const productManager = new ProductManager();
 const faker = require('faker');
 const { getLogger } = require('../config/logger.config');
-
-// Obtener el logger
-const logger = getLogger(process.env.NODE_ENV, 'info'); // Puedes ajustar el nivel según tus necesidades
+const logger = getLogger(process.env.NODE_ENV);
 
 async function getAllProducts(req, res) {
   try {

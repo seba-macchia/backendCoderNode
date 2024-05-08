@@ -1,11 +1,11 @@
-const { passport } = require('../config/passport.config.js');
 const bcrypt = require("bcrypt");
 const { tokenGenerator } = require("../utils/generateToken.js");
 const UserManager = require("../services/userService.js");
-const TicketService = require("../services/ticketService.js"); 
+const TicketService = require("../services/ticketService.js");
 const errorDictionary = require('../middleware/errorDictionary.js');
-const { getLogger, levels } = require('../config/logger.config');
-const logger = getLogger(process.env.NODE_ENV, levels.error);
+const { getLogger } = require('../config/logger.config');
+const logger = getLogger(process.env.NODE_ENV);
+const {passport} = require('../config/passport.config.js');
 
 const userManager = new UserManager();
 const ticketService = new TicketService(); // Crea una instancia del servicio de tickets
@@ -22,7 +22,7 @@ async function register(req, res) {
 
     await userManager.addUser(userNew);
     res.redirect("/");
-    
+
     logger.info('Usuario registrado correctamente');
   } catch (error) {
     logger.error('Error al registrar usuario:', error);
@@ -35,36 +35,35 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await userManager.findUserByEmail(email);
     if (!user) {
-      logger.warn('Usuario no encontrado con el correo electrónico proporcionado:', email);
+      logger.warning(`Usuario no encontrado con el correo electrónico proporcionado: ${email}`);
       return res.status(401).send(errorDictionary.EMAIL_ERROR);
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      logger.warn('Contraseña incorrecta para el usuario:', email);
+      logger.warning(`Contraseña incorrecta para el usuario: ${email}`);
       return res.status(401).send(errorDictionary.PASSWORD_ERROR);
     }
 
     // Verificar si el usuario es el administrador
     if (user.email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
       // Agregar la lógica específica para el administrador aquí
+      logger.info(`Inicio de sesión del administrador:${email}`);
       const token = tokenGenerator(user);
       req.session.user = user; // Agregar el usuario a la sesión
       res.cookie("cookieToken", token, { httpOnly: true });
       res.redirect("/admin/dashboard"); // Ejemplo de redirección para el administrador
-      
-      logger.info('Inicio de sesión del administrador:', email);
       return;
     }
 
     // Si no es el administrador, continuar con la autenticación normal
-    const token = tokenGenerator(user);
+    const token = tokenGenerator(user); 
     req.session.user = user; // Agregar el usuario a la sesión
     res.cookie("cookieToken", token, { httpOnly: true });
     res.redirect("/api/products");
-    
-    logger.info('Inicio de sesión exitoso:', email);
+
+    logger.info(`Inicio de sesión exitoso: ${email}`);
   } catch (error) {
-    logger.error('Error al iniciar sesión:', error);
+    logger.error(`Error al iniciar sesión: ${error}`);
     res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
   }
 }
@@ -94,7 +93,7 @@ async function loginGithubCallback(req, res) {
 async function logout(req, res) {
   req.session.destroy((err) => {
     if (err) {
-      logger.error("Error al destruir la sesión:", err);
+      logger.error(`Error al destruir la sesión: ${err}`);
       res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);
     } else {
       res.clearCookie("cookieToken").redirect("/login");
@@ -110,7 +109,7 @@ function getCurrentUserDTO(user) {
     email: user.email,
     name: user.name,
     role: user.role,
-    // Agregar más campos si es necesario
+
   };
   return userDTO;
 }
@@ -127,8 +126,8 @@ async function completePurchase(req, res) {
     await userManager.updateUserCart(req.session.user, productsNotPurchased);
 
     res.status(200).json({ message: "Compra completada", ticket: ticket });
-    
-    logger.info('Compra completada por el usuario:', req.session.user.email);
+
+    logger.info(`Compra completada por el usuario: ${req.session.user.email}`);
   } catch (error) {
     logger.error('Error al completar la compra:', error);
     res.status(500).send(errorDictionary.INTERNAL_SERVER_ERROR);

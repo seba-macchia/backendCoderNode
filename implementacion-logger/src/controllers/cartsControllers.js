@@ -1,13 +1,12 @@
-// cartControllers.js
-
 const errorDictionary = require("../middleware/errorDictionary");
 const CartManager = require("../services/cartService");
 const cartManager = new CartManager();
 const Product = require("../models/productManager.model"); 
 const TicketService = require("../services/ticketService");
 const ticketService = new TicketService();
-const { getLogger, levels } = require('../config/logger.config');
-const logger = getLogger(process.env.NODE_ENV, levels.error);
+const { getLogger } = require('../config/logger.config');
+const logger = getLogger(process.env.NODE_ENV);
+
 
 async function getAllCarts(req, res) {
   try {
@@ -17,7 +16,7 @@ async function getAllCarts(req, res) {
       logger.info('Carritos recuperados exitosamente.');
       return res.status(200).send({ carts: response });
     } else {
-      logger.warn('No se encontraron carritos.');
+      logger.warning('No se encontraron carritos.');
       res.status(404).send({ msg: errorDictionary.CART_NOT_FOUND });
     }
   } catch (err) {
@@ -40,7 +39,7 @@ async function addProductToCart(req, res) {
     }
 
     if (product.stock < quantity) {
-      logger.warn(`Stock insuficiente para el producto ${pId}`);
+      logger.warning(`Stock insuficiente para el producto ${pId}`);
       return res.status(400).send({ msg: `Stock insuficiente para el producto ${pId}` });
     }
 
@@ -65,7 +64,7 @@ async function updateProductQuantity(req, res) {
       logger.info(`Se actualizó la cantidad del producto ${pid} en el carrito ${cid}`);
       res.status(200).send({ msg: `Se actualizó la cantidad del producto ${pid} en el carrito ${cid}`, data: response.data });
     } else {
-      logger.warn(`No se pudo actualizar la cantidad del producto ${pid} en el carrito ${cid}`);
+      logger.warning(`No se pudo actualizar la cantidad del producto ${pid} en el carrito ${cid}`);
       res.status(404).send({ msg: `No se pudo actualizar la cantidad del producto ${pid} en el carrito ${cid}` });
     }
   } catch (error) {
@@ -88,7 +87,7 @@ async function showCart(req, res) {
         valor: true,
       });
     } else {
-      logger.warn('No se encontró el carrito solicitado.');
+      logger.warning('No se encontró el carrito solicitado.');
       res.status(404).send({ msg: response.message });
     }
   } catch (err) {
@@ -107,7 +106,7 @@ async function deleteAllProductsFromCart(req, res) {
       logger.info(`Todos los productos del carrito ${cid} eliminados correctamente.`);
       res.redirect("/api/carts/" + cid);
     } else {
-      logger.warn(`No se pudo eliminar todos los productos del carrito ${cid}`);
+      logger.warning(`No se pudo eliminar todos los productos del carrito ${cid}`);
       res.status(404).send({ msg: `No se pudo eliminar todos los productos del carrito ${cid}` });
     }
   } catch (err) {
@@ -123,7 +122,7 @@ async function createCart(req, res) {
       logger.info('Carrito creado exitosamente.');
       res.status(201).send({ msg: errorDictionary.CART_FOUND, cart: response });
     } else {
-      logger.warn('Error al crear carrito.');
+      logger.warning('Error al crear carrito.');
       res.status(400).send({ msg: errorDictionary.ERROR_CREATING_CART });
     }
   } catch (err) {
@@ -133,13 +132,15 @@ async function createCart(req, res) {
 }
 
 async function purchaseCart(req, res) {
-  const { cid } = req.params;
-  const userId = req.user._id;
+  const logger = req.logger || fallbackLogger; // Asegúrate de tener un logger alternativo si req.logger no está definido
 
   try {
+    const { cid } = req.params;
+    const userId = req.user._id;
+
     const cart = await cartManager.getCartById(cid);
     if (!cart.success) {
-      logger.warn('El carrito no existe.');
+      logger.warning('El carrito no existe.'); // Usamos logger
       return res.status(404).json({ error: errorDictionary.CART_NOT_FOUND });
     }
 
@@ -149,20 +150,20 @@ async function purchaseCart(req, res) {
       // Si se pudo generar un ticket
       if (ticketData.purchasedProducts.length === cart.products.length) {
         // Si se vendieron todos los productos, mostrar solo el ticket
-        logger.info('Compra completada. Mostrando ticket.');
+        logger.info('Compra completada. Mostrando ticket.'); // Usamos logger
         res.render('checkout', { ticket: ticketData.ticket.toObject(), cartId: cid });
       } else {
-        logger.info('Compra parcial. Mostrando ticket y productos no comprados.');
+        logger.info('Compra parcial. Mostrando ticket y productos no comprados.'); // Usamos logger
         // Si no se vendieron todos los productos, mostrar el ticket y los detalles de los productos no comprados
         res.render('checkout', { ticket: ticketData.ticket.toObject(), unpurchasedProducts: ticketData.unpurchasedProducts, cartId: cid });
       }
     } else {
       // Si no se pudo generar un ticket, mostrar los detalles de los productos no comprados
-      logger.error('No se pudo generar el ticket.');
+      logger.error('No se pudo generar el ticket.'); // Usamos logger
       res.render('checkout', { error: errorDictionary.TICKET_NOT_GENERATED, unpurchasedProducts: ticketData.unpurchasedProducts, cartId: cid });
     }
   } catch (error) {
-    logger.error('Error al procesar la compra:', error);
+    logger.error('Error al procesar la compra:', error); // Usamos logger
     res.status(500).json({ error: 'Ocurrió un error' });
   }
 }
@@ -176,7 +177,7 @@ async function deleteCart(req, res) {
       logger.info(`Carrito con ID ${cid} eliminado correctamente.`);
       res.status(200).send({ msg: `Carrito con ID ${cid} eliminado correctamente` });
     } else {
-      logger.warn(`No se encontró ningún carrito con el ID ${cid}`);
+      logger.warning(`No se encontró ningún carrito con el ID ${cid}`);
       res.status(404).send({ msg: `No se encontró ningún carrito con el ID ${cid}` });
     }
   } catch (err) {

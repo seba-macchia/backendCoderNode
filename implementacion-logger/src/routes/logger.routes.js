@@ -2,13 +2,12 @@ const express = require('express');
 const router = express.Router();
 const loggerMiddleware = require('../middleware/loggerMiddleware');
 const loggerController = require('../controllers/loggerControllers');
-const loggerConfig = require('../config/logger.config');
 
-// Usar el middleware de registro
+// Use logging middleware
 router.use(loggerMiddleware);
 
-// Definir el endpoint /loggerTest
+// Define the /loggerTest endpoint
 router.get('/loggerTest', loggerController.loggerTest);
 
-// Exportar las rutas
+// Export the router
 module.exports = router;

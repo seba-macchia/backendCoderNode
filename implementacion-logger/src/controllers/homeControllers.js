@@ -1,29 +1,42 @@
-// homeController.js
+// mainControllers.js
+const userManager = require("../services/productService");
+const { getLogger } = require('../config/logger.config');
+const logger = getLogger(process.env.NODE_ENV);
 
-const errorDictionary = require("../middleware/errorDictionary");
-const ProductManager = require("../services/productService");
-const { getLogger, levels } = require('../config/logger.config');
-const logger = getLogger(process.env.NODE_ENV, levels.error);
-
-const productManager = new ProductManager("./products.json");
-
-async function renderHomePage(req, res) {
+function auth(req, res, next) {
   try {
-    logger.debug('Renderizando página de inicio...');
-    const products = await productManager.getProducts();
-    const user = req.user;
-
-    logger.info('Página de inicio renderizada exitosamente.');
-    res.status(200).render("home", {
-      products: products,
-      user: user,
-    });
+    let users = userManager.getUsers();
+    if (users.some((user) => user.username === req.session.user.username && user.password === req.session.user.password)) {
+      logger.info("Autenticación exitosa");
+      next();
+    } else {
+      logger.warn("Intento de acceso no autorizado");
+      res.redirect("/");
+    }
   } catch (error) {
-    logger.error(`Error obteniendo los productos: ${error}`);
-    res.status(500).send({ msg: errorDictionary.INTERNAL_SERVER_ERROR });
+    logger.error(`Error durante la autenticación: ${error.message}`);
+    res.status(500).send("Error interno del servidor");
   }
 }
 
+function renderLoginPage(req, res) {
+  logger.debug("Renderizando página de inicio de sesión");
+  res.render("login");
+}
+
+function renderRegisterPage(req, res) {
+  logger.debug("Renderizando página de registro");
+  res.render("register");
+}
+
+function renderProfilePage(req, res) {
+  logger.debug("Renderizando página de perfil de usuario");
+  res.render("profile");
+}
+
 module.exports = {
-  renderHomePage,
+  auth,
+  renderLoginPage,
+  renderRegisterPage,
+  renderProfilePage,
 };

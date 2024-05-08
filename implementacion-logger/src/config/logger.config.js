@@ -1,94 +1,101 @@
-const { createLogger, transports, format } = require('winston');
-const fs = require('fs');
+const winston = require('winston');
 const path = require('path');
-require('dotenv').config();
+const fs = require('fs');
 
-const levels = {
-  debug: 0,
-  http: 1,
-  info: 2,
-  warn: 3,
-  error: 4,
-  fatal: 5,
+// Configuración de niveles y colores personalizados
+const customLevels = {
+    levels: {
+        fatal: 0,
+        error: 1,
+        warning: 2,
+        info: 3,
+        http: 4,
+        debug: 5
+    },
+    colors: {
+        fatal: 'magenta',
+        error: 'red',
+        warning: 'yellow',
+        info: 'green',
+        http: 'cyan',
+        debug: 'gray'
+    }
 };
 
-const colors = {
-  debug: 'grey',
-  http: 'cyan',
-  info: 'green',
-  warn: 'yellow',
-  error: 'red',
-  fatal: 'magenta',
-};
+winston.addColors(customLevels.colors);
 
-const developmentLogger = createLogger({
-  levels: levels,
-  format: format.combine(
-    format.colorize({ all: true }), // Aplicar colores a todos los mensajes
-    format.simple()
-  ),
-  transports: [
-    new transports.Console({
-      level: 'debug',
-    }),
-  ],
+// Crear una carpeta de logs si aún no existe
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir);
+}
+
+// Formato común de logs
+const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+    return `${timestamp} ${level}: ${stack || message}`;
 });
 
-let productionLogger;
+// Transportes comunes
+const transports = [
+    new winston.transports.File({
+        filename: path.join(logsDir, 'errors.log'),
+        level: 'error',
+        format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json()
+        )
+    }),
+    new winston.transports.File({
+        filename: path.join(logsDir, 'combined.log'),
+        level: 'info',
+        format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json()
+        )
+    })
+];
 
-if (process.env.NODE_ENV === 'production') {
-  // Ruta del directorio logs
-  const logsDirectory = path.join(__dirname, '..', 'dao', 'logs');
-
-  // Verificar si el directorio logs existe, y si no, crearlo
-  if (!fs.existsSync(logsDirectory)) {
-    fs.mkdirSync(logsDirectory, { recursive: true });
-  }
-
-  // Configuración del transporte de archivo solo en producción
-  productionLogger = createLogger({
-    levels: levels,
-    format: format.combine(
-      format.colorize({ all: true }), // Aplicar colores a todos los mensajes
-      format.simple()
+// Logger para desarrollo
+const developmentLogger = winston.createLogger({
+    levels: customLevels.levels,
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.colorize(),
+        winston.format.splat(),
+        winston.format.simple(),
+        logFormat
     ),
     transports: [
-      new transports.Console({
-        level: 'info',
-      }),
-      new transports.File({
-        filename: path.join(logsDirectory, 'error.log'),
-        level: 'info', // Cambiar el nivel de log a 'info'
-      }),
-    ],
-  });
-} else {
-  // Si no estamos en producción, asignamos un logger de consola para el desarrollo
-  productionLogger = createLogger({
-    levels: levels,
-    format: format.combine(
-      format.colorize({ all: true }), // Aplicar colores a todos los mensajes
-      format.simple()
+        new winston.transports.Console({
+            level: 'debug'
+        }),
+        ...transports // Añadiendo transportes comunes
+    ]
+});
+
+// Logger para producción
+const productionLogger = winston.createLogger({
+    levels: customLevels.levels,
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.splat(),
+        winston.format.simple(),
+        logFormat
     ),
     transports: [
-      new transports.Console({
-        level: 'info',
-      }),
-    ],
-  });
-}
+        new winston.transports.Console({
+            level: 'info'
+        }),
+        ...transports // Añadiendo transportes comunes
+    ]
+});
 
-function getLogger(env, level) {
-  if (env === 'production') {
-    return productionLogger;
-  } else {
-    const logger = developmentLogger;
-    logger.transports[0].level = level; // Asignar el nivel adecuado
-    return logger;
-  }
-}
+// Función para obtener el logger correcto según el entorno
+const getLogger = (env) => {
+    return env === 'production' ? productionLogger : developmentLogger;
+};
 
 module.exports = {
-  getLogger,
-  levels: levels,
+    getLogger,
+    customLevels: customLevels.levels
 };
