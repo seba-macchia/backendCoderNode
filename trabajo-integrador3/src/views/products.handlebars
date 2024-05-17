@@ -87,11 +87,19 @@
             error: function(error) {
                 console.error('Error al agregar el producto' + productId + ' al carrito:', error);
                 console.log(error.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al agregar el producto al carrito',
-                });
+                if (error.status === 403) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Acción no permitida',
+                        text: 'No tiene permisos para agregar este producto al carrito.',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al agregar el producto al carrito',
+                    });
+                }
             }
         });
     });

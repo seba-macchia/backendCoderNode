@@ -16,10 +16,10 @@ const {
 route.get("/", getAllProducts);
 route.get("/allProducts", isAdminOrPremium, getAllProductsAPI);
 route.get("/prodById/:productId", getProductById);
-route.get("/manager", isAdminOrPremium, renderManagerPage);
+route.get("/manager/", isAdminOrPremium, renderManagerPage);
 route.post("/createProd", isAdminOrPremium, createProduct); // Aplicar middleware de autorización para crear producto (solo para administradores)
-route.put("/updateProd/:id", isAdmin, updateProduct); // Aplicar middleware de autorización para actualizar producto (solo para administradores)
-route.delete("/deleteProd/:pid",  deleteProduct); // Aplicar middleware de autorización para eliminar producto (solo para administradores)
+route.put("/updateProd/:id", isAdminOrPremium, updateProduct); // Aplicar middleware de autorización para actualizar producto (solo para administradores)
+route.delete("/deleteProd/:id", isAdminOrPremium, deleteProduct); // Aplicar middleware de autorización para eliminar producto (solo para administradores)
 // Ruta para obtener productos simulados
 route.get('/mockingproducts', generateSimulatedProducts);
 

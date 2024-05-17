@@ -5,6 +5,7 @@ const faker = require('faker');
 const { getLogger } = require('../config/logger.config');
 const logger = getLogger(process.env.NODE_ENV);
 const ObjectId = require('mongoose').Types.ObjectId; // Importar ObjectId de Mongoose
+const Swal = require('sweetalert2');
 
 async function getAllProducts(req, res) {
   try {
@@ -34,6 +35,7 @@ async function getAllProducts(req, res) {
         stock: item.stock,
         disponibilidad: item.status,
         thumbnail: item.thumbnail,
+        owner: item.owner
       };
     });
 
@@ -110,6 +112,7 @@ async function getAllProductsAPI(req, res) {
       code: item.code,
       status: item.status,
       thumbnail: item.thumbnail,
+      owner: item.owner
     }));
 
     if (productos.success && productos.payload.length > 0) {
@@ -146,7 +149,7 @@ async function getProductById(req, res) {
   const productId = req.params.productId;
 
   try {
-    const product = await productManager.findOne({ _id: productId });
+    const product = await productManager.getProductById({ _id: productId });
 
     if (product) {
       res.send({
@@ -178,10 +181,14 @@ async function createProduct(req, res) {
       stock,
       status,
       category,
+      owner // Aquí puedes recibir el owner directamente del cuerpo de la solicitud
     } = req.body;
 
-    // Verificar si el usuario es "premium" antes de crear el producto
-    if (req.session.user && req.session.user.role === 'premium') {
+    // Si no se especifica un owner en la solicitud, establecerlo como "admin" por defecto
+    const ownerId = owner ? new ObjectId(owner) : "admin";
+
+    // Verificar si el usuario es "premium" o "admin" antes de crear el producto
+    if (req.session.user && req.session.user.role === 'premium' || req.session.user.role === 'admin') {
       await productManager.addProduct({
         title,
         description,
@@ -191,12 +198,12 @@ async function createProduct(req, res) {
         stock,
         status,
         category,
-        owner: new ObjectId(req.session.user._id), // Utilizar new ObjectId para crear un nuevo ObjectId
+        owner: ownerId, // Asignar el owner calculado al producto
       });
 
       res.redirect("/api/products/manager");
     } else {
-      res.status(403).json({ error: 'Acceso denegado. Solo los usuarios premium pueden crear productos.' });
+      res.status(403).json({ error: 'Acceso denegado. Solo los usuarios premium o admin pueden crear productos.' });
     }
   } catch (error) {
     logger.error(`Error al crear un producto: ${error}`);
@@ -204,73 +211,91 @@ async function createProduct(req, res) {
   }
 }
 
+
 async function updateProduct(req, res) {
   const productId = req.params.id;
   const newData = req.body;
   const user = req.session.user;
+  const userId = new ObjectId(user._id);
 
   try {
-    // Buscar el producto
-    const product = await productManager.findOne({ _id: productId });
+    // Verificar si productId es un valor válido
+    if (!productId) {
+      return res.status(400).send({ error: 'ID del producto no válido' });
+    }
 
+
+    // Buscar el producto
+    const productResult = await productManager.getProductById(productId);
+    const product = productResult.data;
+
+    // Verificar si se encontró el producto
     if (!product) {
-      return res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
+      return res.status(404).send({ error: 'Producto no encontrado' });
     }
 
     // Verificar los permisos de modificación
-    if ((user.role === 'admin') || (user.role === 'premium' && product.owner.equals(user._id))) {
+    if (user && (user.role === 'admin') || (user.role === 'premium' && product.owner != 'admin' && product.owner.equals(userId))) {
       // Si el usuario tiene permisos, actualizar el producto
-      const updatedProduct = await productManager.updateProduct(productId, newData);
+      const updatedProduct = await productManager.updateProductById(productId, newData);
 
       if (updatedProduct) {
         return res.status(200).send({
-          msg: errorDictionary.PRODUCT_UPDATED,
+          msg: 'Producto actualizado correctamente',
           data: updatedProduct,
         });
       } else {
-        return res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
+        return res.status(404).send({ error: 'Producto no encontrado' });
       }
     } else {
-      // Si el usuario no tiene permisos, devolver un error de acceso denegado
-      return res.status(403).send({ error: errorDictionary.ACCESS_DENIED });
+      // Si el usuario no tiene permisos, mostrar un SweetAlert indicando el error
+      return res.status(403).send({ error: 'El usuario no tiene permisos para modificar este producto' });
     }
   } catch (error) {
-    logger.error(`Error al actualizar el producto: ${error}`);
-    return res.status(500).send({ error: errorDictionary.INTERNAL_SERVER_ERROR });
+    // Manejar errores
+    console.error(`Error al actualizar el producto: ${error}`);
+    return res.status(500).send({ error: 'Error interno del servidor' });
   }
 }
 
+
+
 async function deleteProduct(req, res) {
-  const productId = req.params.pid;
+  const productId = req.params.id;
   const user = req.session.user;
+  const userId = new ObjectId(user._id);
 
   try {
     // Buscar el producto
-    const product = await productManager.findOne({ _id: productId });
+    const productResult = await productManager.getProductById(productId);
+    const product = productResult.data;
 
     if (!product) {
       return res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
     }
 
     // Verificar los permisos de eliminación
-    if ((user.role === 'admin') || (user.role === 'premium' && product.owner.equals(user._id))) {
+    if (user && (user.role === 'admin') || (user.role === 'premium' && product.owner != 'admin' && product.owner.equals(userId))) {
       // Si el usuario tiene permisos, eliminar el producto
-      const deletedProduct = await productManager.delProduct(productId);
+      const deleted = await productManager.deleteProductById(productId);
 
-      if (deletedProduct) {
+      if (deleted) {
         return res.status(200).send({ msg: errorDictionary.PRODUCT_DELETED });
       } else {
         return res.status(404).send({ error: errorDictionary.PRODUCT_NOT_FOUND });
       }
     } else {
-      // Si el usuario no tiene permisos, devolver un error de acceso denegado
-      return res.status(403).send({ error: errorDictionary.ACCESS_DENIED });
+      // Si el usuario no tiene permisos, mostrar un SweetAlert indicando el error
+      return res.status(403).send({ error: 'El usuario no tiene permisos para eliminar este producto' });
+
     }
   } catch (error) {
     logger.error(`Error al eliminar el producto: ${error}`);
     return res.status(500).send({ error: errorDictionary.INTERNAL_SERVER_ERROR });
   }
 }
+
+
 
 // generador de productos simulados
 const generateSimulatedProducts = (req, res) => {

@@ -9,6 +9,13 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
+<!-- Bootstrap JS y jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <body>
   <div class="container">
     <div class="d-flex justify-content-end mb-3">
@@ -58,6 +65,7 @@
             <label for="category" class="form-label">Category</label>
             <input type="text" class="form-control" id="category" name="category" required>
           </div>
+          <input type="hidden" id="owner" name="owner">
           <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
       </div>
@@ -78,37 +86,109 @@
   <script>
     $(document).ready(function () {
 
+      // Obtener el rol del usuario
+      const userRole = '{{user.role}}';
+      const userId = '{{user._id}}'; // Asumiendo que tienes el user._id disponible en el contexto
+
+      // Establecer el valor del owner en el formulario antes de enviarlo
+      $('#addProductForm').submit(function (event) {
+        event.preventDefault();
+
+        // Establecer el owner basado en el rol del usuario
+        let ownerValue;
+        if (userRole === 'admin') {
+          ownerValue = 'admin';
+        } else if (userRole === 'premium') {
+          ownerValue = userId;
+        }
+
+        // Establecer el valor del campo oculto owner
+        $('#owner').val(ownerValue);
+
+        // Obtener los datos del formulario
+        const productData = {
+          title: $('#title').val(),
+          description: $('#description').val(),
+          price: $('#price').val(),
+          thumbnail: $('#thumbnail').val(),
+          code: $('#code').val(),
+          stock: $('#stock').val(),
+          status: $('#status').val(),
+          category: $('#category').val(),
+          owner: $('#owner').val() // Añadir el owner al producto
+        };
+
+        // Enviar la solicitud AJAX para agregar el producto
+        $.ajax({
+          url: 'http://localhost:8080/api/products/createProd',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(productData),
+        })
+          .done(function (response) {
+            // Mostrar un mensaje de éxito
+            Swal.fire('Product added successfully');
+
+            // Limpiar los campos del formulario
+            $('#addProductForm').trigger('reset');
+
+            // Actualizar la lista de productos
+            getProducts();
+          })
+          .fail(function (error) {
+            console.error('Error adding product:', error);
+            // Mostrar un mensaje de error con SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'Error adding product',
+              text: error.responseJSON ? error.responseJSON.error : 'Unknown error occurred',
+            });
+          });
+      });
+
       // Función para eliminar un producto
-      function deleteProduct(productId) {
-        // Enviar la solicitud AJAX para eliminar el producto
-        Swal.fire({
-          title: 'Are you sure?',
-          text: 'You will not be able to recover this product!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
+     function deleteProduct(productId) {
+    // Enviar la solicitud AJAX para eliminar el producto
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this product!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
             $.ajax({
-              url: `http://localhost:8080/api/products/deleteProd/${productId}`,
-              type: 'DELETE',
+                url: `http://localhost:8080/api/products/deleteProd/${productId}`,
+                type: 'DELETE',
             })
-              .done(function (response) {
+            .done(function (response) {
                 // Mostrar un mensaje de éxito
                 Swal.fire('Product deleted successfully');
-                window.location.reload();
 
-                // Actualizar la lista de productos
+                // Actualizar la lista de productos antes de recargar la página
                 getProducts();
-              })
-              .fail(function (error) {
+
+                // Recargar la página después de un breve retraso
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); // 1000 milisegundos = 1 segundo
+            })
+            .fail(function (error) {
                 console.error('Error deleting product:', error);
-              });
-          }
-        });
-      }
+                // Mostrar un mensaje de error con SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error deleting product',
+                    text: error.responseJSON ? error.responseJSON.error : 'Unknown error occurred',
+                });
+            });
+        }
+    });
+}
+
+
 
       // Función para obtener los productos
       function getProducts() {
@@ -123,161 +203,131 @@
             let html = '';
             products.forEach(product => {
               html += `
-          <li class="list-group-item" id="product-${product._id}">
-            <div class="d-flex">Title: <p class="product-info-${product._id} product-title-${product._id}">${product.title}</p></div>
-            <div class="d-flex">Description: <p class="product-info-${product._id} product-description-${product._id}">${product.description}</p></div>
-            <div class="d-flex">Price: <p class="product-info-${product._id} product-price-${product._id}">${product.price}</p></div>
-            <div class="d-flex">Category: <p class="product-info-${product._id} product-category-${product._id}">${product.category}</p></div>
-            <div class="d-flex">Stock: <p class="product-info-${product._id} product-stock-${product._id}">${product.stock}</p></div>
-            <div class="d-flex">Code: <p class="product-info-${product._id} product-code-${product._id}">${product.code}</p></div>
-            <div class="d-flex">Status: <p class="product-info-${product._id} product-status-${product._id}">${product.status}</p></div>
-            <div class="d-flex">Thumbnail: <p class="product-info-${product._id} product-thumbnail-${product._id}" height="50">${product.thumbnail}</p></div>
-            <button class="btn btn-primary btn-sm edit-product" data-id="${product._id}">Edit</button>
-            <button class="btn btn-danger btn-sm delete-product" data-id="${product._id}">Delete</button>
-          </li>
-        `;
+                <li class="list-group-item" id="product-${product._id}">
+                  <div class="d-flex">Title: <p class="product-info-${product._id} product-title-${product._id}">${product.title}</p></div>
+                  <div class="d-flex">Description: <p class="product-info-${product._id} product-description-${product._id}">${product.description}</p></div>
+                  <div class="d-flex">Price: <p class="product-info-${product._id} product-price-${product._id}">${product.price}</p></div>
+                  <div class="d-flex">Category: <p class="product-info-${product._id} product-category-${product._id}">${product.category}</p></div>
+                  <div class="d-flex">Stock: <p class="product-info-${product._id} product-stock-${product._id}">${product.stock}</p></div>
+                  <div class="d-flex">Code: <p class="product-info-${product._id} product-code-${product._id}">${product.code}</p></div>
+                  <div class="d-flex">Status: <p class="product-info-${product._id} product-status-${product._id}">${product.status}</p></div>
+                  <div class="d-flex">Thumbnail: <p class="product-info-${product._id} product-thumbnail-${product._id}" height="50">${product.thumbnail}</p></div>
+                  <button class="btn btn-primary btn-sm edit-product" data-id="${product._id}">Edit</button>
+                  <button class="btn btn-danger btn-sm delete-product" data-id="${product._id}">Delete</button>
+                </li>
+              `;
             });
             $('#productsList').html(html);
           })
           .fail(function (error) {
             console.error('Error getting products:', error);
-          });
-
-
-        // Agregar el evento click al botón de agregar producto
-        $('#addProductForm').submit(function (event) {
-          event.preventDefault();
-
-          const productData = {
-            title: $('#title').val(),
-            description: $('#description').val(),
-            price: $('#price').val(),
-            thumbnail: $('#thumbnail').val(),
-            code: $('#code').val(),
-            stock: $('#stock').val(),
-            status: $('#status').val(),
-            category: $('#category').val()
-          };
-
-          // Enviar la solicitud AJAX para agregar el producto
-          $.ajax({
-            url: 'http://localhost:8080/api/products/createProd',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(productData),
-          })
-            .done(function (response) {
-              // Mostrar un mensaje de éxito
-              Swal.fire('Product added successfully');
-
-              // Limpiar los campos del formulario
-              $('#title').val('');
-              $('#description').val('');
-              $('#price').val('');
-              $('#thumbnail').val('');
-              $('#code').val('');
-              $('#stock').val('');
-              $('#status').val('true');
-              $('#category').val('');
-
-              // Actualizar la lista de productos
-              getProducts();
-            })
-            .fail(function (error) {
-              console.error('Error adding product:', error);
+            // Mostrar un mensaje de error con SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'Error getting products',
+              text: error.responseJSON ? error.responseJSON.error : 'Unknown error occurred',
             });
-        });
-
-        // Agregar el evento click a los botones de editar
-        $('#productsList').on('click', '.edit-product', function () {
-          const productId = $(this).data('id');
-
-          let fields = document.getElementsByClassName(`product-info-${productId}`);
-
-          for (let i = 0; i < fields.length; i++) {
-            fields[i].contentEditable = true;
-          }
-
-
-          // Change the edit button to 'Save' and bind the update event
-          $(`#product-${productId} .edit-product`).text('Save').addClass('save-product').removeClass('edit-product');
-          // Hide the delete button temporarily
-          $(`#product-${productId} .delete-product`).text('Cancel').addClass('cancel-product').removeClass('delete-product');
-
-          // Bind the save event
-          $(`#product-${productId} .save-product`).on('click', function () {
-            // Save the product
-            saveProduct(productId);
           });
+      }
 
-          // Bind the cancel event
-          $(`#product-${productId} .cancel-product`).on('click', function () {
-            // Cancel the edit
-            cancelEdit(productId);
-          });
+      // Función para guardar un producto editado
+      function saveProduct(productId) {
+        const productData = {
+          title: document.getElementsByClassName(`product-title-${productId}`)[0].textContent,
+          description: document.getElementsByClassName(`product-description-${productId}`)[0].textContent,
+          price: document.getElementsByClassName(`product-price-${productId}`)[0].textContent,
+          thumbnail: document.getElementsByClassName(`product-thumbnail-${productId}`)[0].textContent,
+          code: document.getElementsByClassName(`product-code-${productId}`)[0].textContent,
+          stock: document.getElementsByClassName(`product-stock-${productId}`)[0].textContent,
+          status: document.getElementsByClassName(`product-status-${productId}`)[0].textContent,
+          category: document.getElementsByClassName(`product-category-${productId}`)[0].textContent
+        };
 
+        $.ajax({
+          url: `http://localhost:8080/api/products/updateProd/${productId}`,
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(productData),
         })
-
-        function cancelEdit(productId) {
-          $(`#product-${productId} .edit-product`).text('Edit').addClass('edit-product').removeClass('save-product');
-          $(`#product-${productId} .delete-product`).text('Delete').addClass('delete-product').removeClass('cancel-product');
-        }
-
-        function saveProduct(productId) {
-          const productData = {
-            title: document.getElementsByClassName(`product-title-${productId}`)[0].textContent,
-            description: document.getElementsByClassName(`product-description-${productId}`)[0].textContent,
-            price: document.getElementsByClassName(`product-price-${productId}`)[0].textContent,
-            thumbnail: document.getElementsByClassName(`product-thumbnail-${productId}`)[0].textContent,
-            code: document.getElementsByClassName(`product-code-${productId}`)[0].textContent,
-            stock: document.getElementsByClassName(`product-stock-${productId}`)[0].textContent,
-            status: document.getElementsByClassName(`product-status-${productId}`)[0].textContent,
-            category: document.getElementsByClassName(`product-category-${productId}`)[0].textContent
-          };
-
-          $.ajax({
-            url: `http://localhost:8080/api/products/updateProd/${productId}`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(productData),
-          })
-            .done(function (response) {
-              // Show a success message
+          .done(function (response) {
+            // Verificar si la respuesta contiene un mensaje de error
+            if (response.error) {
+              // Mostrar una alerta con SweetAlert2
+              Swal.fire({
+                icon: 'error',
+                title: 'Acceso denegado',
+                text: response.error,
+              });
+            } else {
+              // Mostrar un mensaje de éxito
               Swal.fire('Product updated successfully');
               window.location.reload();
-            })
-            .fail(function (error) {
-              console.error('Error updating product:', error);
+            }
+          })
+          .fail(function (error) {
+            console.error('Error updating product:', error);
+            // Mostrar un mensaje de error con SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'Error updating product',
+              text: error.responseJSON ? error.responseJSON.error : 'Unknown error occurred',
             });
+          });
+      }
+
+      // Agregar el evento click al botón de agregar producto
+      $('#productsList').on('click', '.edit-product', function () {
+        const productId = $(this).data('id');
+
+        let fields = document.getElementsByClassName(`product-info-${productId}`);
+
+        for (let i = 0; i < fields.length; i++) {
+          fields[i].contentEditable = true;
         }
 
-        // Agregar el evento click a los botones de eliminar$('#productsList').on('click', '.delete-product', function() {
-        $('#productsList').on('click', '.delete-product', function () {
-          const productId = $(this).data('id');
-          deleteProduct(productId);
+        // Change the edit button to 'Save' and bind the update event
+        $(`#product-${productId} .edit-product`).text('Save').addClass('save-product').removeClass('edit-product');
+        // Hide the delete button temporarily
+        $(`#product-${productId} .delete-product`).text('Cancel').addClass('cancel-product').removeClass('delete-product');
+
+        // Bind the save event
+        $(`#product-${productId} .save-product`).on('click', function () {
+          // Save the product
+          saveProduct(productId);
         });
 
-        $('#productsList').on('click', '.cancel-product', function () {
-          const productId = $(this).data('id');
-          // Revert any edits and reset buttons
-          $(`#product-${productId} .edit-product`).text('Edit').addClass('edit-product').removeClass('save-product');
-          $(`#product-${productId} .delete-product`).text('Delete').addClass('delete-product').removeClass('cancel-product');
+        // Bind the cancel event
+        $(`#product-${productId} .cancel-product`).on('click', function () {
+          // Cancel the edit
+          cancelEdit(productId);
         });
 
+      });
 
+      function cancelEdit(productId) {
+        $(`#product-${productId} .edit-product`).text('Edit').addClass('edit-product').removeClass('save-product');
+        $(`#product-${productId} .delete-product`).text('Delete').addClass('delete-product').removeClass('cancel-product');
       }
+
+      // Agregar el evento click a los botones de eliminar
+      $('#productsList').on('click', '.delete-product', function () {
+        const productId = $(this).data('id');
+        deleteProduct(productId);
+      });
+
+      $('#productsList').on('click', '.cancel-product', function () {
+        const productId = $(this).data('id');
+        // Revert any edits and reset buttons
+        $(`#product-${productId} .edit-product`).text('Edit').addClass('edit-product').removeClass('save-product');
+        $(`#product-${productId} .delete-product`).text('Delete').addClass('delete-product').removeClass('cancel-product');
+      });
+
       // Inicializar la lista de productos
       getProducts();
-    })
+    });
 
   </script>
 
-  <!-- Bootstrap JS y jQuery -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </body>
 
 </html>

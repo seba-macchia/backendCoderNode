@@ -36,8 +36,7 @@ const productSchema = new mongoose.Schema({
     },
     // Nuevo campo "owner" que referencia al usuario que lo creó
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Referencia al modelo de usuario
+        type: mongoose.Schema.Types.Mixed, // Cambiar el tipo de dato a Mixed
         required: true,
     },
 });

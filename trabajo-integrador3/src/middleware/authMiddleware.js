@@ -53,4 +53,21 @@ const isAdminOrPremium = (req, res, next) => {
   }
 };
 
-module.exports = { isAdmin, isUser, isPremium, isAdminOrPremium };
+const isPremiumOrUser = (req, res, next) => {
+  // Verificar si el usuario es un usuario premium o un usuario normal
+  if (
+    (req.session.user && req.session.user.role === 'premium') ||
+    (req.session.user && req.session.user.role === 'user')
+
+  ) {
+    // Configurar req.user con la información del usuario almacenada en req.session.user
+    req.user = req.session.user;
+    // Permitir acceso si es un usuario premium o un usuario normal
+    next();
+  } else {
+    // Denegar acceso si no es un usuario premium o un usuario normal
+    res.status(403).json({ error: 'Acceso denegado. Solo los usuarios premium o usuarios normales pueden realizar esta acción.' });
+  }
+};
+
+module.exports = { isAdmin, isUser, isPremium, isAdminOrPremium, isPremiumOrUser };

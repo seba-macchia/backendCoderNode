@@ -118,6 +118,16 @@ class UserManager {
       return null;
     }
   }
+
+  async getAllUserIdAndEmails() {
+    try {
+      return await this.userDao.getAllUserIdAndEmails();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+  
 }
 
 module.exports = UserManager

@@ -1,3 +1,4 @@
+
 const User = require('../../models/user.model');
 const mongoose = require('mongoose');
 
@@ -60,6 +61,16 @@ class UserDao {
       throw err;
     }
   }
+
+  async getAllUserIdAndEmails() {
+    try {
+        const users = await User.find({}, { _id: 1, email: 1 });
+        return users;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 }
 
 module.exports = UserDao;

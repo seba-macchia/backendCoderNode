@@ -16,7 +16,6 @@ async function register(req, res) {
   try {
     let userNew = req.body;
     userNew.name = req.body.name;
-    userNew.role = req.body.role;
 
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     userNew.password = hashedPassword;

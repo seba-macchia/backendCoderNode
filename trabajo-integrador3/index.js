@@ -18,6 +18,7 @@ const authRoutes = require("./src/routes/auth.routes.js");
 const viewsRoutes = require("./src/routes/main.routes.js");
 const messagesRoute = require("./src/routes/chat.routes.js");
 const chatRoutes = require("./src/routes/chat.routes.js");
+const userRoutes = require('./src/routes/user.routes.js');
 const loggerMiddleware = require('./src/middleware/loggerMiddleware.js');
 const config = require('./src/config/loger.commander.js');
 
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use('/api/sessions', authRoutes);
 app.use("/msg", messagesRoute);
 app.use('/', viewsRoutes);
+app.use('/api/users', userRoutes);
 app.use(express.static(__dirname + "/public"));
 
 app.engine("handlebars", handlebars.engine());
