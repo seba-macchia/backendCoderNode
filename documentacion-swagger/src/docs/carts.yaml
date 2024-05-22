@@ -1,0 +1,93 @@
+paths:
+  /api/carts/allCarts:
+    get:
+      summary: Obtener todos los carritos
+      tags: [Carts]
+      description: Obtiene todos los carritos. Solo el administrador puede acceder a esta ruta.
+      responses:
+        '200':
+          description: Carritos obtenidos exitosamente.
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito por ID
+      tags: [Carts]
+      description: Obtiene un carrito por su ID. Solo el usuario puede ver su propio carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito obtenido exitosamente.
+
+    delete:
+      summary: Eliminar un carrito
+      tags: [Carts]
+      description: Elimina un carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito eliminado exitosamente.
+
+  /api/carts/addProdToCart/{cId}/{pId}:
+    post:
+      summary: Agregar un producto al carrito
+      tags: [Carts]
+      description: Agrega un producto al carrito.
+      parameters:
+        - in: path
+          name: cId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto agregado exitosamente al carrito.
+
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Eliminar un producto del carrito
+      tags: [Carts]
+      description: Elimina un producto del carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado exitosamente del carrito.
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Realizar compra de carrito
+      tags: [Carts]
+      description: Realiza la compra de los productos en el carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Compra realizada exitosamente.

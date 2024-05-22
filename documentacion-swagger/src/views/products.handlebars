@@ -1,0 +1,135 @@
+<div class="container">
+
+  <div class="d-flex justify-content-end mb-3">
+    <form action="/api/sessions/logout" method="post">
+      <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+    </form>
+  </div>
+  <div class="mb-3">
+    <a href="/chat" class="btn btn-success" id="chat-link">Ir al Chat</a>
+  </div>
+
+
+  <h1>Productos</h1>
+  <h2>Bienvenido Usuario: {{user.email}} Rol: {{user.role}}</h2>
+
+  {{#if isAdmin}}
+    <div class="mb-3">
+      <a href="/api/products/manager" class="btn btn-primary">Gestionar Productos</a>
+    </div>
+  {{/if}}
+  {{#if isPremium}}
+    <div class="mb-3">
+      <a href="/api/products/manager" class="btn btn-primary">Gestionar Productos</a>
+    </div>
+  {{/if}}
+
+  <div class="mb-3">
+    <a href="/api/carts/{{cartId}}" class="btn btn-primary" id="cart-link">Ir a Carrito</a>
+  </div>
+
+  <div class="row">
+    {{#each products}}
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text">Descripción: {{this.description}}</p>
+            <p class="card-text">Precio por unidad: ${{this.price}}</p>
+            <img src="{{this.thumbnail}}" width="200" height="200" alt="Imagen del producto">
+            <p class="card-text">Categoría: {{this.category}}</p>
+            {{#unless isAdmin}}
+              <button class="add-to-cart-btn btn btn-success" data-product-id="{{this.id}}">Agregar al Carrito</button>
+            {{/unless}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<script>
+  
+  $(document).ready(function() {
+    // Captura el clic en el botón "Agregar al Carrito"
+    $('.add-to-cart-btn').click(function(event) {
+        // Evita que se realice la acción por defecto del botón
+        event.preventDefault();
+        
+        // Obtiene el ID del producto desde el atributo 'data-product-id'
+        var productId = $(this).data('product-id');
+        
+        var cartId = '{{cartId}}';  
+
+        var quantity = 1;
+      
+        
+        $('#cart-link').attr('href', '/api/carts/' + cartId);
+
+        // Si es administrador, muestra un SweetAlert
+        if ({{isAdmin}}) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no permitida',
+            text: 'Usted es administrador. Los administradores no pueden agregar productos al carrito.',
+          });
+          return; // Sale de la función sin realizar la solicitud AJAX
+        }
+
+        // Realiza una solicitud PUT al servidor para agregar o actualizar la cantidad del producto en el carrito
+        $.ajax({
+            url: 'http://localhost:8080/api/carts/' + cartId + '/products/' + productId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ quantity: quantity }),
+            success: function(response) {
+                Swal.fire('Producto agregado al carrito exitosamente');
+            },
+            error: function(error) {
+                console.error('Error al agregar el producto' + productId + ' al carrito:', error);
+                console.log(error.responseText);
+                if (error.status === 403) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Acción no permitida',
+                        text: 'No tiene permisos para agregar este producto al carrito.',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al agregar el producto al carrito',
+                    });
+                }
+            }
+        });
+    });
+
+    // Captura el clic en el enlace "Ir al Chat"
+    $('#chat-link').click(function(event) {
+      // Si es administrador, muestra un SweetAlert
+      if ({{isAdmin}}) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Acción no permitida',
+          text: 'Usted es administrador. Los administradores no pueden acceder al chat.',
+        });
+      }
+    });
+
+    // Captura el clic en el enlace "Ir a Carrito"
+    $('#cart-link').click(function(event) {
+      // Si es administrador, muestra un SweetAlert
+      if ({{isAdmin}}) {
+        event.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Acción no permitida',
+          text: 'Usted es administrador. Los administradores no pueden acceder al carrito.',
+        });
+      }
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

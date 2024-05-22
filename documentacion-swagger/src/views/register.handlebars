@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Registro</h1>
+  <form action="/api/sessions/register" id="registroForm" method="post">
+    <div class="mb-3">
+      <input type="text" class="form-control" name="name" placeholder="Nombre" required>
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" name="lastname" placeholder="Apellido" required>
+    </div>
+    <div class="mb-3">
+      <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+    </div>
+    <div class="mb-3">
+      <input type="number" class="form-control" name="age" placeholder="Edad" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+  </form>
+  <div class="mt-3">
+    <p>¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
+  </div>
+</div>

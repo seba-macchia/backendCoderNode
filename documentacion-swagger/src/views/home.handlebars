@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+</head>
+<body>
+  <div class="container mt-5">
+  <div class="col-md-6">
+    <a href="/realtimeproducts" class="btn btn-primary">Ir a Productos</a>
+  </div>
+  <h1>Todos los productos</h1>
+  <div class="my-12 flex justify-center items-center">
+        <div class="flex  grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {{#each products}}
+            <div class="bg-[#232323] w-96 rounded-xl p-6">
+                <div class="flex flex-col justify-center items-center">
+                    <img src={{this.thumbnail}} alt="" width="250" height="250" />
+                </div>
+                <h3 class="font-medium text-xl text-center">
+                    {{this.title}}
+                </h3>
+                <h2 class="text-gray-200 font-semibold text-3xl mt-2 text-center">
+                    <span class="gradient-text">${{this.price}}</span>
+                </h2>
+                <div class="w-full h-[1px] bg-gray-500 my-4"></div>
+                <p class="font-medium text-base text-zinc-400 text-center mt-2">
+                    {{this.description}}
+                </p>
+                <div class="w-full h-[1px] bg-gray-500 my-4"></div>
+
+                <button
+                    class="bg-[#2d2d2d] hover:bg-black/20 transitions-all duration-200 w-full py-2 rounded-xl text-gray-200 font-medium">
+                    Comprar
+                </button>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>

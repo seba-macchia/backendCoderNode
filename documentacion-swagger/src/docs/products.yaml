@@ -1,0 +1,256 @@
+paths:
+  /api/products/allProducts:
+    get:
+      summary: Obtiene todos los productos para administradores y usuarios premium
+      tags: [Productos]
+      security:
+        - sessionAuth: [admin, premium]
+      responses:
+        200:
+          description: Lista de productos para administradores y usuarios premium
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+  /api/products/prodById/{productId}:
+    get:
+      summary: Obtiene un producto por su ID
+      tags: [Productos]
+      security:
+        - sessionAuth: [admin, premium]
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /api/products/manager:
+    get:
+      summary: Renderiza la página de gestión para administradores y usuarios premium
+      tags: [Productos]
+      security:
+        - sessionAuth: [admin, premium]
+      responses:
+        200:
+          description: Página de gestión renderizada
+
+  /api/products/createProd:
+    post:
+      summary: Crea un nuevo producto (solo para administradores y usuarios premium)
+      tags: [Productos]
+      security:
+        - sessionAuth: [admin, premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        201:
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Error en la solicitud
+
+  /api/products/updateProd/{id}:
+    put:
+      summary: Actualiza un producto por su ID (solo para administradores y usuarios premium)
+      tags: [Productos]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      security:
+        - sessionAuth: [admin, premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProduct'
+      responses:
+        200:
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /api/products/deleteProd/{id}:
+    delete:
+      summary: Elimina un producto por su ID (solo para administradores y usuarios premium)
+      tags: [Productos]
+      security:
+        - sessionAuth: [admin, premium]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      responses:
+        200:
+          description: Producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /api/products/mockingproducts:
+    get:
+      summary: Genera productos simulados
+      tags: [Productos]
+      responses:
+        200:
+          description: Productos simulados generados
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "60c72b2f9b1d4c3a50d7e830"
+        title:
+          type: string
+          example: "Producto 1"
+        description:
+          type: string
+          example: "Descripción del producto 1"
+        price:
+          type: number
+          example: 99.99
+        code:
+          type: string
+          example: "ABC123"
+        stock:
+          type: number
+          example: 10
+        status:
+          type: boolean
+          example: true
+        category:
+          type: string
+          example: "Categoría 1"
+        thumbnail:
+          type: string
+          example: "http://example.com/image.jpg"
+        owner:
+          type: string
+          example: "60c72b2f9b1d4c3a50d7e830"
+
+    NewProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Nuevo Producto"
+        description:
+          type: string
+          example: "Descripción del nuevo producto"
+        price:
+          type: number
+          example: 99.99
+        code:
+          type: string
+          example: "ABC123"
+        stock:
+          type: number
+          example: 10
+        status:
+          type: boolean
+          example: true
+        category:
+          type: string
+          example: "Categoría 1"
+        thumbnail:
+          type: string
+          example: "http://example.com/image.jpg"
+        owner:
+          type: string
+          example: "60c72b2f9b1d4c3a50d7e830"
+      required:
+        - title
+        - description
+        - price
+        - code
+        - stock
+        - status
+        - category
+
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Producto Actualizado"
+        description:
+          type: string
+          example: "Descripción actualizada del producto"
+        price:
+          type: number
+          example: 109.99
+        category:
+          type: string
+          example: "Categoría Actualizada"
+        thumbnail:
+          type: string
+          example: "http://example.com/image-actualizada.jpg"
+
+securitySchemes:
+  sessionAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: El token de sesión debe ser proporcionado en el encabezado de autorización.
+    flows:
+      implicit:
+        authorizationUrl: 'http://example.com/auth'
+        scopes:
+          admin: Acceso completo a la funcionalidad de administrador.
+          premium: Acceso a características premium de la tienda.
