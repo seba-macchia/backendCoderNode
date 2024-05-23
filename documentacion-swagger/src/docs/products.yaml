@@ -1,26 +1,26 @@
 paths:
-  /api/products/allProducts:
+  /api/swagger/allProducts:
     get:
-      summary: Obtiene todos los productos para administradores y usuarios premium
+      summary: Obtiene todos los productos disponibles en la aplicación
       tags: [Productos]
-      security:
-        - sessionAuth: [admin, premium]
       responses:
-        200:
-          description: Lista de productos para administradores y usuarios premium
+        '200':
+          description: Se obtuvieron todos los productos
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
+        '400':
+          description: Error en la solicitud
+        '500':
+          description: Error interno en el servidor, no se pudo obtener los productos
 
-  /api/products/prodById/{productId}:
+  /api/swagger/prodById/{productId}:
     get:
-      summary: Obtiene un producto por su ID
+      summary: Obtiene un producto por su ID disponible en la aplicación (solo para administradores y usuarios premium)
       tags: [Productos]
-      security:
-        - sessionAuth: [admin, premium]
       parameters:
         - in: path
           name: productId
@@ -29,35 +29,29 @@ paths:
           required: true
           description: ID del producto
       responses:
-        200:
+        '200':
           description: Producto encontrado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-        404:
+        '404':
           description: Producto no encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error interno en el servidor
 
-  /api/products/manager:
+  /api/swagger/manager:
     get:
-      summary: Renderiza la página de gestión para administradores y usuarios premium
+      summary: Acceso a la página de gestión de productos (solo para administradores y usuarios premium)
       tags: [Productos]
-      security:
-        - sessionAuth: [admin, premium]
-      responses:
-        200:
-          description: Página de gestión renderizada
+      description: |
+        Esta ruta permite renderizar los productos de la página para usuarios premium y administradores,
+        ya que tiene un botón para administrar los productos, editarlos y borrarlos pero se encuentra aplicado únicamente en la página de gestión.
 
-  /api/products/createProd:
+  /api/swagger/createProd:
     post:
       summary: Crea un nuevo producto (solo para administradores y usuarios premium)
       tags: [Productos]
-      security:
-        - sessionAuth: [admin, premium]
       requestBody:
         required: true
         content:
@@ -65,16 +59,18 @@ paths:
             schema:
               $ref: '#/components/schemas/NewProduct'
       responses:
-        201:
+        '201':
           description: Producto creado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-        400:
+        '400':
           description: Error en la solicitud
+        '500':
+          description: Error interno en el servidor al crear el producto
 
-  /api/products/updateProd/{id}:
+  /api/swagger/updateProd/{id}:
     put:
       summary: Actualiza un producto por su ID (solo para administradores y usuarios premium)
       tags: [Productos]
@@ -85,8 +81,6 @@ paths:
             type: string
           required: true
           description: ID del producto
-      security:
-        - sessionAuth: [admin, premium]
       requestBody:
         required: true
         content:
@@ -94,31 +88,21 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateProduct'
       responses:
-        200:
+        '200':
           description: Producto actualizado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-        400:
-          description: Error en la solicitud
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        404:
+        '404':
           description: Producto no encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error interno en el servidor al actualizar el producto
 
-  /api/products/deleteProd/{id}:
+  /api/swagger/deleteProd/{id}:
     delete:
       summary: Elimina un producto por su ID (solo para administradores y usuarios premium)
       tags: [Productos]
-      security:
-        - sessionAuth: [admin, premium]
       parameters:
         - in: path
           name: id
@@ -127,25 +111,19 @@ paths:
           required: true
           description: ID del producto
       responses:
-        200:
+        '200':
           description: Producto eliminado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        404:
+        '404':
           description: Producto no encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error interno en el servidor al eliminar el producto
 
-  /api/products/mockingproducts:
+  /api/swagger/mockingproducts:
     get:
       summary: Genera productos simulados
       tags: [Productos]
       responses:
-        200:
+        '200':
           description: Productos simulados generados
 
 components:
@@ -153,67 +131,36 @@ components:
     Product:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          example: "60c72b2f9b1d4c3a50d7e830"
+          example: "66478266736ed020833c607a"
         title:
           type: string
-          example: "Producto 1"
+          example: "Camiseta Boca Juniors"
         description:
           type: string
-          example: "Descripción del producto 1"
+          example: "Temporada 2024/2025"
         price:
           type: number
-          example: 99.99
+          example: 95
         code:
           type: string
-          example: "ABC123"
+          example: "boca12"
         stock:
           type: number
-          example: 10
+          example: 20
         status:
           type: boolean
           example: true
         category:
           type: string
-          example: "Categoría 1"
+          example: "Camisetas"
         thumbnail:
           type: string
-          example: "http://example.com/image.jpg"
+          example: "https://bocashop.vteximg.com.br/arquivos/ids/170003-550-550/HT3693_01.jpg?v=638394531271370000"
         owner:
-          type: string
-          example: "60c72b2f9b1d4c3a50d7e830"
-
-    NewProduct:
-      type: object
-      properties:
-        title:
-          type: string
-          example: "Nuevo Producto"
-        description:
-          type: string
-          example: "Descripción del nuevo producto"
-        price:
-          type: number
-          example: 99.99
-        code:
-          type: string
-          example: "ABC123"
-        stock:
-          type: number
-          example: 10
-        status:
-          type: boolean
-          example: true
-        category:
-          type: string
-          example: "Categoría 1"
-        thumbnail:
-          type: string
-          example: "http://example.com/image.jpg"
-        owner:
-          type: string
-          example: "60c72b2f9b1d4c3a50d7e830"
+          type: objet or string
+          example: "664767a1ab3bb65983020cee"
       required:
         - title
         - description
@@ -222,35 +169,16 @@ components:
         - stock
         - status
         - category
-
-    UpdateProduct:
-      type: object
-      properties:
-        title:
-          type: string
-          example: "Producto Actualizado"
-        description:
-          type: string
-          example: "Descripción actualizada del producto"
-        price:
-          type: number
-          example: 109.99
-        category:
-          type: string
-          example: "Categoría Actualizada"
-        thumbnail:
-          type: string
-          example: "http://example.com/image-actualizada.jpg"
-
-securitySchemes:
-  sessionAuth:
-    type: apiKey
-    in: header
-    name: Authorization
-    description: El token de sesión debe ser proporcionado en el encabezado de autorización.
-    flows:
-      implicit:
-        authorizationUrl: 'http://example.com/auth'
-        scopes:
-          admin: Acceso completo a la funcionalidad de administrador.
-          premium: Acceso a características premium de la tienda.
+        - thumbnail
+        - owner
+      example:
+        _id: "66478266736ed020833c607a"
+        title: "Camiseta Boca Juniors"
+        description: "Temporada 2024/2025"
+        price: 95
+        code: "boca12"
+        stock: 20
+        status: true
+        category: "Camisetas"
+        thumbnail: "https://bocashop.vteximg.com.br/arquivos/ids/170003-550-550/HT3693_01.jpg?v=638394531271370000"
+        owner: "664767a1ab3bb65983020cee"

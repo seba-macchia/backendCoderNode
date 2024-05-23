@@ -211,8 +211,7 @@
                   <div class="d-flex">Stock: <p class="product-info-${product._id} product-stock-${product._id}">${product.stock}</p></div>
                   <div class="d-flex">Code: <p class="product-info-${product._id} product-code-${product._id}">${product.code}</p></div>
                   <div class="d-flex">Status: <p class="product-info-${product._id} product-status-${product._id}">${product.status}</p></div>
-                  <!-- Utiliza la etiqueta <img> para mostrar la imagen -->
-                  <div class="d-flex">Thumbnail: <img src="${product.thumbnail}" alt="Thumbnail" height="80"></div>
+                  <div class="d-flex">Thumbnail: <p class="product-info-${product._id} product-thumbnail-${product._id}" height="50">${product.thumbnail}</p></div>
                   <button class="btn btn-primary btn-sm edit-product" data-id="${product._id}">Edit</button>
                   <button class="btn btn-danger btn-sm delete-product" data-id="${product._id}">Delete</button>
                 </li>

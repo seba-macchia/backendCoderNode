@@ -685,3 +685,166 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-22T15:17:30.842Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-22T15:22:35.010Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-22T15:22:36.086Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:39:34.500Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:39:35.620Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:40:13.562Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:40:14.687Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:45:38.973Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:45:40.103Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:51:02.605Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:51:03.687Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:52:38.579Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:52:39.690Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:52:49.559Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:52:50.941Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T10:54:06.818Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T10:54:07.939Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:01:32.181Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:01:33.340Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:12:10.524Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:12:11.642Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:15:24.930Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:15:26.063Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:16:36.030Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:16:37.090Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:16:55.425Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:16:56.537Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:18:38.909Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:18:40.020Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:21:47.723Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:21:48.887Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:26:11.544Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:26:12.685Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:28:55.910Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:28:57.008Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:30:21.727Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:30:23.041Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:32:56.008Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:32:57.266Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:33:08.432Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:33:09.624Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T11:42:20.360Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:47:36.626Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:47:37.749Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T11:49:33.876Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T11:49:34.992Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:44.923Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:46.985Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:47.625Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:48.263Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:48.835Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:49.506Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:51.816Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al renderizar la página del administrador: TypeError: Cannot read properties of undefined (reading 'cart')","timestamp":"2024-05-23T11:49:52.975Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: macchiasebastian@gmail.com","timestamp":"2024-05-23T11:59:54.434Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:05:19.854Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:05:20.947Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:05:57.448Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:05:58.495Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:07:35.903Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:07:36.974Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:11:34.860Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:11:35.933Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:12:18.594Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:12:19.652Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:20:27.938Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:20:29.097Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:25:40.998Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:25:42.122Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:27:31.828Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:27:33.012Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:44:04.014Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:44:05.104Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:51:46.471Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:51:47.566Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:51:58.905Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:52:00.016Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:53:32.566Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:53:33.796Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:55:01.144Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:55:02.239Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-05-23T12:55:37.197Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:59:01.634Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:59:02.783Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T12:59:45.778Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T12:59:46.838Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al procesar la compra: Cannot read properties of undefined (reading '_id')","stack":"TypeError: Cannot read properties of undefined (reading '_id')\n    at purchaseCart (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\src\\controllers\\cartsControllers.js:161:29)\n    at Layer.handle [as handle_request] (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-05-23T13:00:03.554Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-05-23T13:00:53.604Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 66460e6aae3c201e0e8b6b12 agregado al carrito 664bf072052164146bd40119","timestamp":"2024-05-23T13:01:08.160Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito con ID 664bf072052164146bd40119 eliminado correctamente.","timestamp":"2024-05-23T13:01:44.946Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error al procesar la compra: Cannot read properties of undefined (reading '_id')","stack":"TypeError: Cannot read properties of undefined (reading '_id')\n    at purchaseCart (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\src\\controllers\\cartsControllers.js:161:29)\n    at Layer.handle [as handle_request] (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:421:3)\n    at next (C:\\Users\\macch\\OneDrive\\Documentos\\CoderHouse\\backend-node\\documentacion-swagger\\node_modules\\express\\lib\\router\\index.js:280:10)","timestamp":"2024-05-23T13:02:04.031Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:03:06.524Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:03:07.646Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-05-23T13:03:18.806Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se pudo eliminar todos los productos del carrito :cid","timestamp":"2024-05-23T13:03:33.462Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:04:17.254Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:04:18.445Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:27:15.679Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:27:16.852Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:28:16.898Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:28:18.019Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:30:19.068Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:30:20.127Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 66460e6aae3c201e0e8b6b12 en el carrito 664767a1ab3bb65983020cec","timestamp":"2024-05-23T13:31:02.442Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:31:47.265Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:31:48.423Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Compra completada.","timestamp":"2024-05-23T13:31:55.481Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:33:11.065Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:33:12.147Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 66460e6aae3c201e0e8b6b12 en el carrito 664767a1ab3bb65983020cec","timestamp":"2024-05-23T13:33:17.462Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"No tiene permisos para agregar este producto","timestamp":"2024-05-23T13:33:19.781Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Todos los productos del carrito 664767a1ab3bb65983020cec eliminados correctamente.","timestamp":"2024-05-23T13:33:25.189Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:34:08.757Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:34:09.795Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:34:45.137Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:34:46.161Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:35:13.535Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:35:14.666Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:35:31.479Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:35:32.539Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:36:00.210Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:36:01.279Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:36:13.313Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:36:14.379Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:37:17.028Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:37:18.069Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:37:44.487Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:37:45.536Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:39:47.257Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:39:48.388Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:47:54.355Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:47:55.416Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:50:56.572Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:50:57.644Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:51:31.946Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:51:33.126Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T13:51:44.458Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T13:52:29.349Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:56:33.377Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:56:34.447Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T13:56:47.309Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T13:59:09.838Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T13:59:10.903Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T13:59:19.274Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:05:23.900Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:05:24.993Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:07:48.037Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:07:49.275Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:08:13.473Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:08:14.487Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:09:14.845Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:09:15.898Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T14:09:36.626Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:14:40.498Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:14:41.562Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T14:14:53.114Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:15:10.801Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:15:11.872Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:17:29.939Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:17:31.055Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T14:17:43.322Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"No se encontró el carrito solicitado.","timestamp":"2024-05-23T14:18:25.047Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:19:07.081Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:19:08.444Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:20:13.604Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:20:14.663Z"}

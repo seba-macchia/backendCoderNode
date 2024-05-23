@@ -1,0 +1,132 @@
+paths:
+  /api/users/reset-password:
+    get:
+      summary: Renderiza la página de restablecimiento de contraseña (solo funciona desde la página de inicio de sesión)
+      tags: [Usuarios]
+      description: Renderiza la página para que el usuario pueda restablecer su contraseña.
+
+  /api/users/reset-password-email:
+    post:
+      summary: Enviar correo electrónico para restablecer contraseña (solo funciona desde la página)
+      tags: [Usuarios]
+      description: Envía un correo electrónico al usuario con instrucciones para restablecer su contraseña.
+
+  /api/users/reset-password/{token}:
+    get:
+      summary: Renderiza el formulario para ingresar la nueva contraseña (solo funciona desde la página de restablecimiento de contraseña)
+      tags: [User]
+      description: Renderiza el formulario para que el usuario pueda ingresar una nueva contraseña después de hacer clic en el enlace de restablecimiento en el correo electrónico.
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Token de restablecimiento de contraseña.
+
+    post:
+      summary: Restablecer contraseña (solo funciona desde la página de restablecimiento de contraseña)
+      tags: [User]
+      description: Restablece la contraseña del usuario utilizando el token proporcionado en el correo electrónico.
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Token de restablecimiento de contraseña.
+
+  /api/users/premium/{uid}:
+    put:
+      summary: Cambiar estado de usuario a premium (solo funciona desde thunder o peticiones desde el backend)
+      tags: [User]
+      description: Cambia el estado de un usuario a premium.
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+          description: ID de usuario.
+
+  /api/users/all-users-emails:
+    get:
+      summary: Obtener todos los ID de usuario y correos electrónicos
+      tags: [User]
+      description: Obtiene una lista de todos los ID de usuario y sus correos electrónicos.
+      responses:
+        '200':
+          description: Lista de ID de usuario y correos electrónicos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      description: ID del usuario
+                    email:
+                      type: string
+                      format: email
+                      description: Correo electrónico del usuario
+        '500':
+          description: Error interno del servidor
+
+
+
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          example: jose@mail.com
+        password:
+          type: string
+          example: "hashed_password"
+        name:
+          type: string
+          example: Jose
+        lastname:
+          type: string
+          example: Rodriguez
+        age:
+          type: string
+          example: 30
+        role:
+          type: string
+          enum: [user, premium, admin]
+          example: user
+        cart:
+          type: string
+          example: "60c72b2f9b1d4c3a50d7e830" # ID del carrito asociado
+        githubId:
+          type: string
+          example: "github_user_id"
+        resetPasswordToken:
+          type: string
+          example: "reset_token"
+        resetPasswordExpires:
+          type: string
+          format: date-time
+          example: "2024-05-30T12:00:00Z"
+      required:
+        - email
+        - cart
+      example:
+        email: jose@mail.com
+        password: "hashed_password"
+        name: José
+        lastname: Rodriguez
+        age: 30
+        role: user
+        cart: "60c72b2f9b1d4c3a50d7e830" # ID del carrito asociado
+        githubId: "github_user_id"
+        resetPasswordToken: "reset_token"
+        resetPasswordExpires: "2024-05-30T12:00:00Z"
+
+

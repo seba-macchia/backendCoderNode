@@ -21,8 +21,8 @@ const chatRoutes = require("./src/routes/chat.routes.js");
 const userRoutes = require('./src/routes/user.routes.js');
 const loggerMiddleware = require('./src/middleware/loggerMiddleware.js');
 const config = require('./src/config/loger.commander.js');
-const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUIExpress = require('swagger-ui-express');
+const swaggerConfig = require('./src/config/swaggerConfig.js'); 
 
 // Cargar las variables de entorno
 require('dotenv').config();
@@ -64,19 +64,8 @@ app.set("views", __dirname + "/src/views");
 
 app.use("/chat", chatRoutes);
 
-// documentacion con swagger
-const swaggerOptions = {
-  definition: {
-      openapi: "3.0.1",
-      info: {
-          title: "Documentacion API Adoptme",
-          description: "Documentacion API Adoptme - para uso de swagger"
-      }
-  },
-  apis: [`./src/docs/*.yaml`]
-}
-const specs = swaggerJSDoc(swaggerOptions)
-app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
+// Configuración de Swagger
+app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerConfig));
 
 const PORT = config.port; // Utilizar el puerto definido en el archivo de configuración
 const server = http.createServer(app);
