@@ -2,13 +2,13 @@ paths:
   /api/users/reset-password:
     get:
       summary: Renderiza la página de restablecimiento de contraseña (solo funciona desde la página de inicio de sesión)
-      tags: [Usuarios]
+      tags: [User]
       description: Renderiza la página para que el usuario pueda restablecer su contraseña.
 
   /api/users/reset-password-email:
     post:
       summary: Enviar correo electrónico para restablecer contraseña (solo funciona desde la página)
-      tags: [Usuarios]
+      tags: [User]
       description: Envía un correo electrónico al usuario con instrucciones para restablecer su contraseña.
 
   /api/users/reset-password/{token}:
