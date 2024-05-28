@@ -848,3 +848,18 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:19:08.444Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:20:13.604Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:20:14.663Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-23T14:43:15.389Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-23T14:43:16.567Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-28T09:47:49.844Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-28T09:47:51.071Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-28T09:48:16.680Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-28T09:48:17.742Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-28T09:52:37.972Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-28T09:52:39.111Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Usuario no encontrado con el correo electrónico proporcionado: jose@mail.com","timestamp":"2024-05-28T09:53:00.977Z"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Usuario no encontrado con el correo electrónico proporcionado: jose@mail.com","timestamp":"2024-05-28T09:53:05.883Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-05-28T09:57:03.058Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-05-28T09:57:04.123Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-05-28T09:58:05.330Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-05-28T09:58:16.104Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-05-28T09:58:59.389Z"}

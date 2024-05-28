@@ -1,4 +1,62 @@
-# Descripción de las Rutas
+# App de indumentaria
+
+Esta aplicación está pensada para un ecommerce de indumentaria. Está diseñada para manejar productos y carritos de diferentes usuarios, es posible tener 3 tipos de usuarios, usuario (comprador), admin o premium. Cada uno tiene sus limitaciones implementadas y se accede a cada uno de ellos mediante un login. También se puede encontrar una implementación con Swagger, con la posibilidad de probar las rutas de productos, carritos y usuarios sin necesidad de autenticación.
+
+## Configuración de entorno
+
+Para ejecutar la aplicación, debemos configurar las siguiente variables de entorno en un archivo `.env` en la raíz del proyecto:
+
+```dotenv
+PORT=8080
+MONGO_URI=mongodb+srv://macchiasebastianprog:coder1234@codercluster.ictmdpz.mongodb.net/ecommerce
+
+# Entorno de desarrollo
+LOG_LEVEL_DEV=debug
+
+# Entorno de produccion
+LOG_LEVEL_PROD=info
+
+# Premium
+mail = jose@mail.com
+contraseña = 1234
+
+# Admin
+mail = admin@coder.com
+contraseña = Admin1234
+
+```
+
+## Dentro del programa existen dos formas de acceder desde el entorno
+
+### Desarrollo:
+para iniciar en el entorno de desarrollo, se debe ejecutar en la consola el siguiente comando:
+
+```
+npm run dev
+```
+
+### Producción:
+para iniciar en el entorno de producción, se debe ejecutar en la consola el siguiente comando:
+
+```
+npm start
+
+```
+
+## Documentación de la API con Swagger
+La documentación de la API fue realizada con Swagger. Cree rutas específicas para trabajar con productos y con carritos sin autenticación, lo que permite realizar todas las pruebas necesarias. Además, se encuentra implementado tambien las rutas trabajadas con los usuarios.
+
+Para ver la documentación debemos tener ejecutado por consola, en cualquiera de los dos entornos y en el navegador, la siguiente URL:
+
+```
+http://localhost:8080/apidocs
+```
+
+## Uso de  Swagger
+Para accder a las rutas de Swagger sin autenticación, simplemente navega a la URL mencionada anteriormente. Allí la interfaz de Swagger, te permitirá probar los diferentes endpoints de la API sin necesidad
+de ningún tipo de autenticación.
+
+# Rutas incluidas en la API
 
 ## AUTH ROUTES
 
