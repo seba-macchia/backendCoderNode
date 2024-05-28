@@ -90,7 +90,8 @@ de ningún tipo de autenticación.
 - Descripción: Obtiene los datos del usuario actual.
 - Controlador: Retorna un DTO de usuario.
 
-## ---------------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## CARTS ROUTES
 
 ### /allCarts
@@ -143,7 +144,8 @@ de ningún tipo de autenticación.
 - Descripción: Realiza la compra del carrito.
 - Controlador: `purchaseCart`
 
-## --------------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## CHAT ROUTES
 
 ### /allMessages
@@ -161,7 +163,8 @@ de ningún tipo de autenticación.
 - Descripción: Renderiza la página de chat.
 - Controlador: `renderChatPage`
 
-## -------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## HOME ROUTES
 
 ### /
@@ -169,7 +172,8 @@ de ningún tipo de autenticación.
 - Descripción: Renderiza la página de inicio.
 - Controlador: `renderHomePage`
 
-## ------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ##  LOGGER
 
 ### /loggerTest
@@ -177,7 +181,8 @@ de ningún tipo de autenticación.
 - Descripción: Prueba de registro.
 - Controlador: `loggerTest`
 
-## ------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## MAIN ROUTES
 
 ### /
@@ -201,7 +206,8 @@ de ningún tipo de autenticación.
 - Controlador: `renderProfilePage`
 - Middleware: `auth` (requerido)
 
-## --------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## PRODUCTS ROUTES
 
 ### /
@@ -249,7 +255,8 @@ de ningún tipo de autenticación.
 - Descripción: Obtiene productos simulados.
 - Controlador: `generateSimulatedProducts`
 
-## -----------------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ### REALTIMEPRODUCTS ROUTES
 
 ### /
@@ -262,7 +269,8 @@ de ningún tipo de autenticación.
 - Descripción: Obtiene productos en tiempo real.
 - Controlador: `getRealTimeProducts`
 
-## ------------------------------------------------------------------------------------------------------------
+## -------------------------------------------------------------------
+
 ## USER ROUTES
 
 ### /reset-password
