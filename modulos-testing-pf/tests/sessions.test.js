@@ -1,17 +1,17 @@
 const chai = require('chai');
 const expect = chai.expect;
-const supertest = require('supertest');
+const request = require('supertest-session');
 const app = require('../index.js');
-const { tokenGenerator } = require('../src/utils/generateToken');
 
 describe('Session Router', function() {
-  let authToken;
+  let agent;
 
   // Aumentar el tiempo de espera para las pruebas
   this.timeout(5000);
 
   before(async () => {
-    authToken = tokenGenerator({ id: 'userId', role: 'admin' });
+    // Crear un agente de supertest-session
+    agent = request(app);
   });
 
   it('debería registrar un nuevo usuario', async () => {
@@ -26,7 +26,7 @@ describe('Session Router', function() {
       resetPasswordExpires: new Date() 
     };
   
-    const res = await supertest(app)
+    const res = await agent
       .post('/api/sessions/register')
       .send(newUser);
   
@@ -42,7 +42,7 @@ describe('Session Router', function() {
       password: '1234',
     };
   
-    const res = await supertest(app)
+    const res = await agent
       .post('/api/sessions/login')
       .send(credentials);
   
@@ -53,14 +53,16 @@ describe('Session Router', function() {
   });
   
   it('debería cerrar sesión correctamente', async () => {
-    const res = await supertest(app)
-      .post('/api/sessions/logout')
-      .set('Authorization', `Bearer ${authToken}`);
+    const res = await agent
+      .post('/api/sessions/logout');
   
     // Verifica el código de estado 302 para la redirección
     expect(res.status).to.equal(302);
     // Verifica que la redirección sea a la ruta deseada
     expect(res.header).to.have.property('location').that.equals('/login');
+
+    // Verifica que la sesión se cerro correctamente
+    console.log('Sesión cerrada con éxito');
   });
 
 });

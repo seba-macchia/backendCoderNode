@@ -33,6 +33,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
     "socket.io": "^4.7.4",
+    "supertest-session": "^5.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "sweetalert2": "^11.6.13",

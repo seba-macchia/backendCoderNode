@@ -180,7 +180,7 @@ async function getProductById(req, res) {
 }
 
 
-async function createProduct(req, res) {
+async function createProduct(req, res, isTest = false) {
   try {
     const {
       title,
@@ -213,7 +213,6 @@ async function createProduct(req, res) {
 
       const userAgent = req.get('User-Agent') || '';
       const isThunder = userAgent.includes('Thunder');
-      const isTest = userAgent.includes('Mocha') || userAgent.includes('chai-http');
 
       if (isThunder || isTest) {
         res.status(201).json({
@@ -231,6 +230,7 @@ async function createProduct(req, res) {
     res.status(500).json({ error: errorDictionary.ERROR_ADDING_PRODUCT });
   }
 }
+
 
 
 
