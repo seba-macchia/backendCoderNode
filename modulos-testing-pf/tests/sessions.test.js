@@ -3,8 +3,9 @@ const expect = chai.expect;
 const request = require('supertest-session');
 const app = require('../index.js');
 
-describe('Session Router', function() {
+describe('========== Session Router Tests ===========', function() {
   let agent;
+
 
   // Aumentar el tiempo de espera para las pruebas
   this.timeout(5000);
@@ -61,8 +62,6 @@ describe('Session Router', function() {
     // Verifica que la redirección sea a la ruta deseada
     expect(res.header).to.have.property('location').that.equals('/login');
 
-    // Verifica que la sesión se cerro correctamente
-    console.log('Sesión cerrada con éxito');
   });
 
 });

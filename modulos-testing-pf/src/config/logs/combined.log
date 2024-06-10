@@ -1681,3 +1681,71 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-05T12:15:08.973Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-05T12:15:09.717Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-05T12:15:09.980Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T07:52:02.705Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T07:52:03.914Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:52:04.414Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-06-06T07:52:04.716Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-06-06T07:52:05.021Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 665c819b7fc8165b27141977 agregado al carrito 6659b2eccd71c920d4cbeeb7","timestamp":"2024-06-06T07:52:05.489Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:52:05.756Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-06T07:52:06.981Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:52:07.194Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T07:57:59.290Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T07:58:00.575Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:58:01.061Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-06-06T07:58:01.370Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-06-06T07:58:01.672Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 665c819b7fc8165b27141977 agregado al carrito 6659b2eccd71c920d4cbeeb7","timestamp":"2024-06-06T07:58:02.132Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:58:02.402Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-06T07:58:03.611Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:58:03.788Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T07:59:11.921Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T07:59:13.081Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:59:13.573Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-06-06T07:59:13.882Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-06-06T07:59:14.179Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 665c819b7fc8165b27141977 agregado al carrito 6659b2eccd71c920d4cbeeb7","timestamp":"2024-06-06T07:59:14.636Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:59:14.897Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-06T07:59:16.099Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T07:59:16.268Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:00:17.770Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:00:18.952Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:00:19.440Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-06-06T08:00:19.741Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-06-06T08:00:20.043Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 665c819b7fc8165b27141977 agregado al carrito 6659b2eccd71c920d4cbeeb7","timestamp":"2024-06-06T08:00:20.510Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:00:20.777Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-06T08:00:21.998Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:00:22.175Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:01:58.670Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:01:59.883Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:02:00.382Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carritos recuperados exitosamente.","timestamp":"2024-06-06T08:02:00.681Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Carrito creado exitosamente.","timestamp":"2024-06-06T08:02:00.981Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Producto 665c819b7fc8165b27141977 agregado al carrito 6659b2eccd71c920d4cbeeb7","timestamp":"2024-06-06T08:02:01.454Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:02:01.729Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Usuario registrado correctamente","timestamp":"2024-06-06T08:02:02.947Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:02:03.115Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:08:20.272Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:08:21.332Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:08:37.906Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Se actualizó la cantidad del producto 665c7b2f1724c1eeaf999566 en el carrito 6655aaad9ca9cdbff2862bf2","timestamp":"2024-06-06T08:08:41.361Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Todos los productos del carrito 6655aaad9ca9cdbff2862bf2 eliminados correctamente.","timestamp":"2024-06-06T08:08:45.414Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:12:40.169Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Inicio de sesión exitoso: jose@mail.com","timestamp":"2024-06-06T08:26:30.458Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:34:11.743Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:34:14.743Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:34:52.181Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:34:53.197Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:49:47.422Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:49:48.468Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:50:31.648Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:50:32.928Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:51:19.436Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:51:20.580Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:52:39.696Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:52:40.849Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:54:30.817Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:54:33.037Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Servidor escuchando en el puerto 8080","timestamp":"2024-06-06T08:55:41.767Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Conexión a la base de datos exitosa","timestamp":"2024-06-06T08:55:45.541Z"}

@@ -3,7 +3,8 @@ const expect = chai.expect;
 const request = require('supertest-session');
 const app = require('../index.js');
 
-describe('Product Router', function() {
+
+describe('======== Product Router Tests ==========', function() {
   let agent;
   let createdProductId;
 
@@ -23,7 +24,6 @@ describe('Product Router', function() {
   it('debería devolver todos los productos', async () => {
     // Realizar una solicitud para obtener todos los productos con la sesión autenticada
     const res = await agent.get('/api/products/allProducts');
-    console.log('Contenido obtenido:', res.body); // Mostrar contenido obtenido por pantalla
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('data').that.is.an('array');
@@ -32,7 +32,6 @@ describe('Product Router', function() {
   it('debería devolver un producto específico por ID', async () => {
     const productId = '665c819b7fc8165b27141977'; 
     const res = await agent.get(`/api/products/prodById/${productId}`);
-    console.log('Contenido obtenido:', res.body); // Mostrar contenido obtenido por pantalla
     expect(res.status).to.equal(200);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('data').that.is.an('object');
@@ -53,7 +52,6 @@ describe('Product Router', function() {
     const res = await agent
       .post('/api/products/createProd')
       .send(newProduct);
-    console.log('Contenido obtenido:', res.body); // Mostrar contenido obtenido por pantalla
     expect(res.status).to.equal(201);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('data');

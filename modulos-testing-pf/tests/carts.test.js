@@ -3,7 +3,7 @@ const expect = chai.expect;
 const request = require('supertest-session');
 const app = require('../index.js');
 
-describe('Cart Router', function() {
+describe('======== Cart Router Tests ========', function() {
   let agent;
 
   // Aumentar el tiempo de espera para las pruebas
@@ -30,7 +30,6 @@ describe('Cart Router', function() {
   it('debería crear un nuevo carrito', async () => {
     // Realizar una solicitud para crear un nuevo carrito con la sesión autenticada
     const res = await agent.post('/api/carts/createCart');
-    console.log('Contenido obtenido:', res.body); // Mostrar el carrito nuevo por pantalla
     expect(res.status).to.equal(201);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('cart').that.is.an('object');
@@ -43,7 +42,6 @@ describe('Cart Router', function() {
     const res = await agent
       .post(`/api/carts/addProdToCart/${cartId}/${productId}`)
       .send({ quantity: 1 });
-    console.log('Contenido obtenido:', res.body); // Mostrar contenido obtenido por pantalla
     // Ajusta estas aserciones según lo esperado para esta ruta y usuario
     expect(res.status).to.equal(201); // Cambia a 201
     expect(res.body).to.be.an('object');
