@@ -1,0 +1,58 @@
+<div class="container">
+  <h1>Ticket de Compra</h1>
+  {{#if ticket}}
+    {{#if unpurchasedProducts}}
+      <div class="mb-3">
+        <p><strong>Código de ticket:</strong> {{ticket.code}}</p>
+        <p><strong>Fecha de compra:</strong> {{ticket.purchase_datetime}}</p>
+        <p><strong>Monto total:</strong> ${{ticket.amount}}</p>
+        <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+      </div>
+      <div class="mb-3">
+        <p><strong>Algunos productos no se pudieron comprar debido a la falta de
+            stock:</strong></p>
+        <ul>
+          {{#each unpurchasedProducts}}
+            <li>
+              <p><strong>Título:</strong> {{this.title}}</p>
+              <p><strong>Descripción:</strong> {{this.description}}</p>
+              <p><strong>Precio:</strong> {{this.price}}</p>
+              <p><strong>Categoría:</strong> {{this.category}}</p>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{else}}
+      <div class="mb-3">
+        <p><strong>Código de ticket:</strong> {{ticket.code}}</p>
+        <p><strong>Fecha de compra:</strong> {{ticket.purchase_datetime}}</p>
+        <p><strong>Monto total:</strong> ${{ticket.amount}}</p>
+        <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+      </div>
+    {{/if}}
+  {{else}}
+    <div class="mb-3">
+      <p>{{error}}</p>
+      {{#if unpurchasedProducts}}
+        <p><strong>Productos que no se pudieron comprar:</strong></p>
+        <ul>
+          {{#each unpurchasedProducts}}
+            <li>
+              <p><strong>Título:</strong> {{this.title}}</p>
+              <p><strong>Descripción:</strong> {{this.description}}</p>
+              <p><strong>Precio:</strong> {{this.price}}</p>
+              <p><strong>Categoría:</strong> {{this.category}}</p>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div class="mb-3">
+    <a href="/api/products" class="btn btn-primary">Ir a Productos</a>
+  </div>
+  <div class="mb-3">
+    <a href="/api/carts/{{cartId}}" class="btn btn-primary" id="cart-link">Ir a Carrito</a>
+  </div>
+</div>

@@ -1,0 +1,184 @@
+paths:
+  /api/swagger/allProducts:
+    get:
+      summary: Obtiene todos los productos disponibles en la aplicación
+      tags: [Productos]
+      responses:
+        '200':
+          description: Se obtuvieron todos los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: Error en la solicitud
+        '500':
+          description: Error interno en el servidor, no se pudo obtener los productos
+
+  /api/swagger/prodById/{productId}:
+    get:
+      summary: Obtiene un producto por su ID disponible en la aplicación (solo para administradores y usuarios premium)
+      tags: [Productos]
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno en el servidor
+
+  /api/swagger/manager:
+    get:
+      summary: Acceso a la página de gestión de productos (solo para administradores y usuarios premium)
+      tags: [Productos]
+      description: |
+        Esta ruta permite renderizar los productos de la página para usuarios premium y administradores,
+        ya que tiene un botón para administrar los productos, editarlos y borrarlos pero se encuentra aplicado únicamente en la página de gestión.
+
+  /api/swagger/createProd:
+    post:
+      summary: Crea un nuevo producto (solo para administradores y usuarios premium)
+      tags: [Productos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Error en la solicitud
+        '500':
+          description: Error interno en el servidor al crear el producto
+
+  /api/swagger/updateProd/{id}:
+    put:
+      summary: Actualiza un producto por su ID (solo para administradores y usuarios premium)
+      tags: [Productos]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProduct'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno en el servidor al actualizar el producto
+
+  /api/swagger/deleteProd/{id}:
+    delete:
+      summary: Elimina un producto por su ID (solo para administradores y usuarios premium)
+      tags: [Productos]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del producto
+      responses:
+        '200':
+          description: Producto eliminado
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno en el servidor al eliminar el producto
+
+  /api/swagger/mockingproducts:
+    get:
+      summary: Genera productos simulados
+      tags: [Productos]
+      responses:
+        '200':
+          description: Productos simulados generados
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "66478266736ed020833c607a"
+        title:
+          type: string
+          example: "Camiseta Boca Juniors"
+        description:
+          type: string
+          example: "Temporada 2024/2025"
+        price:
+          type: number
+          example: 95
+        code:
+          type: string
+          example: "boca12"
+        stock:
+          type: number
+          example: 20
+        status:
+          type: boolean
+          example: true
+        category:
+          type: string
+          example: "Camisetas"
+        thumbnail:
+          type: string
+          example: "https://bocashop.vteximg.com.br/arquivos/ids/170003-550-550/HT3693_01.jpg?v=638394531271370000"
+        owner:
+          type: objet or string
+          example: "664767a1ab3bb65983020cee"
+      required:
+        - title
+        - description
+        - price
+        - code
+        - stock
+        - status
+        - category
+        - thumbnail
+        - owner
+      example:
+        _id: "66478266736ed020833c607a"
+        title: "Camiseta Boca Juniors"
+        description: "Temporada 2024/2025"
+        price: 95
+        code: "boca12"
+        stock: 20
+        status: true
+        category: "Camisetas"
+        thumbnail: "https://bocashop.vteximg.com.br/arquivos/ids/170003-550-550/HT3693_01.jpg?v=638394531271370000"
+        owner: "664767a1ab3bb65983020cee"

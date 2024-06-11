@@ -1,0 +1,179 @@
+paths:
+  /api/swagger/allCarts:
+    get:
+      summary: Obtener todos los carritos disponibles en la aplicación
+      tags: [Carts]
+      description: Obtiene todos los carritos. Solo el administrador puede acceder a esta ruta.
+      responses:
+        '200':
+          description: Carritos obtenidos exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404':
+          description: No se encontraron carritos.
+        '500':
+          description: Error interno del servidor.
+
+  /api/swagger/{cid}:
+    get:
+      summary: Obtener un carrito por ID 
+      tags: [Carts]
+      description: Obtiene un carrito por su ID. Solo el usuario puede ver su propio carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: No se encontro el carrito solicitado.
+        '500':
+          description: Error interno del servidor.
+
+    delete:
+      summary: Eliminar un carrito (SOLO LOS USUARIOS O PREMIUM PUEDE ELIMINAR)
+      tags: [Carts]
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: No se encontro el carrito solicitado.
+        '500':
+          description: Error interno del servidor.
+
+  /api/swagger/addProdToCart/{cId}/{pId}:
+    post:
+      summary: Agregar un producto al carrito (SOLO LOS USUARIOS O PREMIUM PUEDE AGREGAR)
+      tags: [Carts]
+      description: Agrega un producto al carrito.
+      parameters:
+        - in: path
+          name: cId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pId
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Producto {pId} agregado al carrito {cId}.
+        '400':
+          description: Stock insuficiente para el producto {pId}.
+        '404':
+          description: Producto {pId} no encontrado.
+        '500':
+          description: Error interno del servidor.
+
+
+  /api/swagger/{cid}/purchase:
+    post:
+      summary: Realizar compra de carrito (SOLO LOS USUARIOS O PREMIUM PUEDE REALIZAR)
+      tags: [Carts]
+      description: ESTA FUNCIONA SOLO DESDE LA PAGINA WEB. Realiza la compra de los productos en el carrito, obteniendo un ticket.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '500':
+          description: Ocurrió un error.
+      
+  /api/swagger/createCart:
+    post:
+      summary: Crear un nuevo carrito
+      tags: [Carts]
+      description: Crea un nuevo carrito.
+      responses:
+        '201':
+          description: Carrito creado exitosamente.
+        '400':
+          description: Error al crear el carrito.
+        '500':
+          description: Error interno del servidor.
+
+
+  /api/swagger/:cid/products:
+    post:
+      summary: ESTA FUNCIONA SOLO DESDE LA PAGINA WEB. Eliminar todos los productos del carrito (SOLO LOS USUARIOS O PREMIUM PUEDE ELIMINAR)
+      tags: [Carts]
+      description: Elimina todos los productos del carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: No se pudo eliminar todos los productos del carrito ${cid}.
+        '500':
+          description: Error interno del servidor.
+
+  /api/swagger/:cid:
+    put:
+      summary: Actualizar el carrito
+      tags: [Carts]
+      description: ESTA FUNCIONA SOLO DESDE LA PAGINA WEB. Actualiza el carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito actualizado exitosamente.
+        '404':
+          description: No se pudo actualizar el carrito ${cid}.
+        '500':
+          description: Error interno del servidor.
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                $ref: '#/components/schemas/Product'
+              quantity:
+                type: number
+      required:
+        - _id
+        - products
+      example:
+        _id: 1
+        products:
+          - product: 
+              _id: "66478266736ed020833c607a"
+              title: "Camiseta Boca Juniors"
+              description: "Temporada 2024/2025"
+              price: 95
+              code: "boca12"
+              stock: 20
+              status: true
+              category: "Camisetas"
+              thumbnail: "https://bocashop.vteximg.com.br/arquivos/ids/170003-550-550/HT3693_01.jpg?v=638394531271370000"
+              owner: "664767a1ab3bb65983020cee"
+            quantity: 2
+
