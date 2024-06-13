@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const fs = require('fs');
 const Handlebars = require('handlebars');
-const upload = require('../middleware/uploadMiddleware');
+const path = require('path');
 
 // Enviar correo de restablecimiento de contraseña
 async function sendResetPasswordEmail(req, res) {
@@ -124,7 +124,7 @@ async function uploadDocuments(req, res) {
           if (!documentExists) {
             user.documents.push({
               name: file.originalname,
-              reference: file.path
+              reference: path.relative(path.join(__dirname, '../../uploads'), file.path)
             });
           }
         });
@@ -140,6 +140,7 @@ async function uploadDocuments(req, res) {
 }
 
 
+
 // Función para cambiar el rol de un usuario entre "user" y "premium"
 async function toggleUserRole(req, res) {
   try {
@@ -150,15 +151,22 @@ async function toggleUserRole(req, res) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
+    // Función para normalizar nombres de archivos
+    const normalizeFileName = (fileName) => {
+      const noNumberFileName = fileName.replace(/^\d+-/, "");
+      return noNumberFileName
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9\.]/g, "_")
+        .toLowerCase();
+    };
+
     // Verificar si el usuario ha subido todos los documentos requeridos
-    const requiredDocuments = ['Identificacion', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
-    const uploadedDocuments = user.documents.map(doc => doc.name);
-    
-    // Función para eliminar números iniciales y extensiones de archivo de los nombres de archivo
-    const removeNumbersAndExtension = (fileName) => fileName.replace(/^\d+-/, '').replace(/\.\w+$/, ''); 
-    
-    // Compara los nombres de los documentos subidos (sin números ni extensiones) con los nombres requeridos
-    const hasAllDocuments = requiredDocuments.every(doc => uploadedDocuments.some(uploadedDoc => removeNumbersAndExtension(uploadedDoc) === doc));
+    const requiredDocuments = ['identificacion', 'comprobante_de_domicilio', 'comprobante_de_estado_de_cuenta'];
+    const uploadedDocuments = user.documents.map(doc => normalizeFileName(doc.name));
+
+    // Compara los nombres de los documentos subidos (normalizados) con los nombres requeridos (normalizados)
+    const hasAllDocuments = requiredDocuments.every(doc => uploadedDocuments.includes(doc));
 
     if (!hasAllDocuments) {
       return res.status(400).json({ error: 'El usuario no ha terminado de procesar su documentación' });
@@ -174,14 +182,6 @@ async function toggleUserRole(req, res) {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
-
-
-
-
-
-
-
-
 
 async function getAllUserIdAndEmails(req, res) {
     try {
